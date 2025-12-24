@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Product Selector</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    /* Hide scrollbar for Chrome, Safari and Opera */
+    .no-scrollbar::-webkit-scrollbar {
+      display: none;
+    }
+    /* Hide scrollbar for IE, Edge and Firefox */
+    .no-scrollbar {
+      -ms-overflow-style: none; /* IE and Edge */
+      scrollbar-width: none; /* Firefox */
+    }
+  </style>
+</head>
+<body class="bg-gray-50 min-h-screen flex items-center justify-center">
+
+  <section class="w-full max-w-md px-4">
+    <!-- Header -->
+    <div class="text-center mb-6">
+      <h2 class="text-xl font-semibold">Choose a Product Type</h2>
+      <p class="text-sm text-gray-500 mt-1">Swipe to preview available white-label options</p>
+    </div>
+
+    <!-- Slider -->
+    <div class="flex gap-4 overflow-x-auto snap-x snap-mandatory scroll-smooth pb-6 no-scrollbar">
+
+      <!-- Slide 1 -->
+      <div class="snap-center shrink-0 w-full bg-white rounded-2xl shadow-md border p-6 flex flex-col items-center text-center">
+        <div class="w-44 h-44 bg-gray-100 rounded-xl flex items-center justify-center mb-5">
+          <span class="text-gray-400 text-sm">Lash Tray Image</span>
+        </div>
+        <h3 class="text-lg font-semibold">White-Label Lash Trays</h3>
+        <p class="text-sm text-gray-500 mt-1">Custom branding · Multiple styles</p>
+        <button class="mt-5 w-full rounded-full bg-purple-600 text-white py-3 font-semibold hover:bg-purple-500 transition">
+          Select for Campaign
+        </button>
+      </div>
+
+      <!-- Slide 2 -->
+      <div class="snap-center shrink-0 w-full bg-white rounded-2xl shadow-md border p-6 flex flex-col items-center text-center">
+        <div class="w-44 h-44 bg-gray-100 rounded-xl flex items-center justify-center mb-5">
+          <span class="text-gray-400 text-sm">Lash Strips Image</span>
+        </div>
+        <h3 class="text-lg font-semibold">White-Label Lash Strips</h3>
+        <p class="text-sm text-gray-500 mt-1">Ideal for bundles & beginners</p>
+        <button class="mt-5 w-full rounded-full bg-purple-600 text-white py-3 font-semibold hover:bg-purple-500 transition">
+          Select for Campaign
+        </button>
+      </div>
+
+      <!-- Slide 3 -->
+      <div class="snap-center shrink-0 w-full bg-white rounded-2xl shadow-md border p-6 flex flex-col items-center text-center">
+        <div class="w-44 h-44 bg-gray-100 rounded-xl flex items-center justify-center mb-5">
+          <span class="text-gray-400 text-sm">Tools Image</span>
+        </div>
+        <h3 class="text-lg font-semibold">White-Label Tools</h3>
+        <p class="text-sm text-gray-500 mt-1">Tweezers, applicators, essentials</p>
+        <button class="mt-5 w-full rounded-full bg-purple-600 text-white py-3 font-semibold hover:bg-purple-500 transition">
+          Select for Campaign
+        </button>
+      </div>
+
+    </div>
+
+    <!-- Dots -->
+    <div class="flex justify-center gap-2 mt-2">
+      <span class="w-2.5 h-2.5 bg-purple-600 rounded-full"></span>
+      <span class="w-2.5 h-2.5 bg-gray-300 rounded-full"></span>
+      <span class="w-2.5 h-2.5 bg-gray-300 rounded-full"></span>
+    </div>
+
+    <!-- Footer note -->
+    <p class="mt-5 text-xs text-center text-gray-400">
+      Products shown are sample categories. Final specs are confirmed after campaign validation.
+    </p>
+  </section>
+
+</body>
+</html>
