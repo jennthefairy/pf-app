@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PageFairy Dashboard - Product Catalog</title>
+
+    <!-- Tailwind & DaisyUI -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@4.10.1/dist/full.min.css" rel="stylesheet" type="text/css" />
+
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <style>
+        html, body { height: 100%; overflow: hidden; }
+        body { background-color: #0b1120; }
+        .glass-pane {
+            background: rgba(30, 41, 59, 0.7);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .sidebar-nav::-webkit-scrollbar { width: 4px; }
+        .sidebar-nav::-webkit-scrollbar-thumb { background: #4a0e9a; border-radius: 4px; }
+        .sidebar-nav { scrollbar-width: thin; scrollbar-color: #4a0e9a #1e293b; }
+
+        .product-card {
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .product-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 20px 25px -5px rgba(139, 92, 246, 0.3);
+        }
+
+        .badge-premium {
+            background: linear-gradient(135deg, #8b5cf6 0%, #ec4899 100%);
+        }
+    </style>
+</head>
+<body class="bg-slate-950 text-white font-sans antialiased">
+
+    <div class="flex h-screen">
+
+        <!-- ===== DESKTOP Sidebar ===== -->
+        <aside class="w-64 h-screen flex-col flex-shrink-0 bg-slate-900 border-r border-slate-800 hidden md:flex">
+            <div class="h-16 flex items-center justify-center px-4 border-b border-slate-800">
+                <a href="dashboard.html" class="flex items-center gap-2 text-xl font-bold tracking-tight text-white">
+                    <i data-lucide="sparkles" class="text-purple-500 w-5 h-5"></i>
+                    PageFairy
+                </a>
+            </div>
+
+            <nav class="flex-1 overflow-y-auto sidebar-nav p-4 space-y-2">
+                <a href="dashboard.html" class="flex items-center gap-3 px-4 py-3 rounded-lg text-slate-400 hover:bg-slate-800 hover:text-white transition-colors">
+                    <i data-lucide="home" class="w-5 h-5"></i>
+                    <span>Home</span>
+                </a>
+                <a href="campaigns.html" class="flex items-center gap-3 px-4 py-3 rounded-lg text-slate-400 hover:bg-slate-800 hover:text-white transition-colors">
+                    <i data-lucide="gem" class="w-5 h-5"></i>
+                    <span>Campaigns</span>
+                </a>
+                <a href="orders.html" class="flex items-center gap-3 px-4 py-3 rounded-lg text-slate-400 hover:bg-slate-800 hover:text-white transition-colors">
+                    <i data-lucide="package" class="w-5 h-5"></i>
+                    <span>Orders</span>
+                </a>
+                <a href="subscribers.html" class="flex items-center gap-3 px-4 py-3 rounded-lg text-slate-400 hover:bg-slate-800 hover:text-white transition-colors">
+                    <i data-lucide="users" class="w-5 h-5"></i>
+                    <span>Subscribers</span>
+                </a>
+                <a href="product-catalog.html" class="flex items-center gap-3 px-4 py-3 rounded-lg bg-purple-600/20 text-purple-300 font-semibold">
+                    <i data-lucide="book-marked" class="w-5 h-5"></i>
+                    <span>Product Catalog</span>
+                </a>
+            </nav>
+
+            <div class="p-4 border-t border-slate-800">
+                <a href="settings.html" class="flex items-center w-full gap-3 px-4 py-3 rounded-lg text-slate-400 hover:bg-slate-800 hover:text-white transition-colors">
+                    <i data-lucide="settings" class="w-5 h-5"></i>
+                    <span>Settings</span>
+                </a>
+                <a href="#" class="flex items-center w-full gap-3 px-4 py-3 rounded-lg text-slate-400 hover:bg-slate-800 hover:text-red-400 transition-colors">
+                    <i data-lucide="log-out" class="w-5 h-5"></i>
+                    <span>Log Out</span>
+                </a>
+            </div>
+        </aside>
+
+        <!-- ===== MOBILE Bottom Nav ===== -->
+        <div class="btm-nav md:hidden bg-slate-900 border-t border-slate-800 z-50">
+            <a href="dashboard.html" class="text-slate-400">
+                <i data-lucide="home" class="w-5 h-5"></i>
+            </a>
+            <a href="campaigns.html" class="text-slate-400">
+                <i data-lucide="gem" class="w-5 h-5"></i>
+            </a>
+            <a href="product-catalog.html" class="text-purple-400 active">
+                <i data-lucide="book-marked" class="w-5 h-5"></i>
+            </a>
+            <a href="orders.html" class="text-slate-400">
+                <i data-lucide="package" class="w-5 h-5"></i>
+            </a>
+            <a href="settings.html" class="text-slate-400">
+                <i data-lucide="settings" class="w-5 h-5"></i>
+            </a>
+        </div>
+
+        <!-- ===== MAIN CONTENT ===== -->
+        <main class="flex-1 overflow-y-auto">
+            <!-- Top Bar -->
+            <div class="h-16 bg-slate-900/50 backdrop-blur-lg border-b border-slate-800 flex items-center justify-between px-6 sticky top-0 z-40">
+                <div>
+                    <h1 class="text-2xl font-bold">Product Catalog</h1>
+                    <p class="text-sm text-slate-400">Choose products for your campaign</p>
+                </div>
+                <div class="flex items-center gap-3">
+                    <div class="badge badge-lg bg-purple-600/20 text-purple-300 border-purple-500/30">
+                        <i data-lucide="info" class="w-4 h-4 mr-2"></i>
+                        White-Label Ready
+                    </div>
+                </div>
+            </div>
+
+            <!-- Content -->
+            <div class="p-6 max-w-7xl mx-auto">
+
+                <!-- Filter Tabs -->
+                <div class="tabs tabs-boxed bg-slate-900/50 border border-slate-800 mb-8 p-1">
+                    <a class="tab tab-active bg-purple-600 text-white">All Products</a>
+                    <a class="tab">Lash Extensions</a>
+                    <a class="tab">Lash Strips</a>
+                    <a class="tab">Tools & Accessories</a>
+                </div>
+
+                <!-- Products Grid -->
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-20">
+
+                    <!-- Product Card 1: Premium Lash Trays -->
+                    <div class="product-card card bg-slate-900 border border-slate-800 shadow-xl overflow-hidden">
+                        <figure class="relative h-56 bg-gradient-to-br from-purple-900/20 to-pink-900/20">
+                            <img src="https://images.unsplash.com/photo-1583001809039-0e900eda7c80?w=500&q=80"
+                                 alt="Premium Lash Trays"
+                                 class="w-full h-full object-cover opacity-90" />
+                            <div class="absolute top-3 right-3">
+                                <span class="badge badge-premium text-white border-none font-semibold">Premium</span>
+                            </div>
+                        </figure>
+                        <div class="card-body">
+                            <h3 class="card-title text-white">
+                                Premium Lash Trays
+                                <i data-lucide="sparkles" class="w-4 h-4 text-purple-400"></i>
+                            </h3>
+                            <p class="text-slate-400 text-sm">16-line professional volume trays. Multiple curl types (C, D, L). Your branding on packaging.</p>
+
+                            <div class="flex items-center gap-2 my-3">
+                                <div class="badge badge-outline badge-sm text-purple-300 border-purple-500/50">0.03-0.07mm</div>
+                                <div class="badge badge-outline badge-sm text-purple-300 border-purple-500/50">8-15mm</div>
+                                <div class="badge badge-outline badge-sm text-purple-300 border-purple-500/50">C/D/L Curl</div>
+                            </div>
+
+                            <div class="divider my-2"></div>
+
+                            <div class="flex items-end justify-between">
+                                <div>
+                                    <p class="text-xs text-slate-500">Wholesale Cost</p>
+                                    <p class="text-2xl font-bold text-white">$8<span class="text-sm text-slate-400">/tray</span></p>
+                                    <p class="text-xs text-green-400">Min. order: 10 units</p>
+                                </div>
+                                <button class="btn btn-sm btn-primary bg-purple-600 hover:bg-purple-500 border-none text-white">
+                                    <i data-lucide="plus" class="w-4 h-4"></i>
+                                    Select
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Product Card 2: Classic Lash Strips -->
+                    <div class="product-card card bg-slate-900 border border-slate-800 shadow-xl overflow-hidden">
+                        <figure class="relative h-56 bg-gradient-to-br from-pink-900/20 to-purple-900/20">
+                            <img src="https://images.unsplash.com/photo-1631438933135-75d90c293e8c?w=500&q=80"
+                                 alt="Classic Lash Strips"
+                                 class="w-full h-full object-cover opacity-90" />
+                            <div class="absolute top-3 right-3">
+                                <span class="badge bg-slate-800 text-white border-slate-700">Best Seller</span>
+                            </div>
+                        </figure>
+                        <div class="card-body">
+                            <h3 class="card-title text-white">
+                                Classic Lash Strips
+                                <i data-lucide="heart" class="w-4 h-4 text-pink-400"></i>
+                            </h3>
+                            <p class="text-slate-400 text-sm">5-pair strip lash sets. Perfect for retail bundles. Natural to dramatic styles available.</p>
+
+                            <div class="flex items-center gap-2 my-3">
+                                <div class="badge badge-outline badge-sm text-pink-300 border-pink-500/50">Natural</div>
+                                <div class="badge badge-outline badge-sm text-pink-300 border-pink-500/50">Dramatic</div>
+                                <div class="badge badge-outline badge-sm text-pink-300 border-pink-500/50">Wispy</div>
+                            </div>
+
+                            <div class="divider my-2"></div>
+
+                            <div class="flex items-end justify-between">
+                                <div>
+                                    <p class="text-xs text-slate-500">Wholesale Cost</p>
+                                    <p class="text-2xl font-bold text-white">$3<span class="text-sm text-slate-400">/set</span></p>
+                                    <p class="text-xs text-green-400">Min. order: 20 units</p>
+                                </div>
+                                <button class="btn btn-sm btn-primary bg-purple-600 hover:bg-purple-500 border-none text-white">
+                                    <i data-lucide="plus" class="w-4 h-4"></i>
+                                    Select
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Product Card 3: Pro Lash Tweezers -->
+                    <div class="product-card card bg-slate-900 border border-slate-800 shadow-xl overflow-hidden">
+                        <figure class="relative h-56 bg-gradient-to-br from-blue-900/20 to-purple-900/20">
+                            <img src="https://images.unsplash.com/photo-1596462502278-27bfdc403348?w=500&q=80"
+                                 alt="Pro Lash Tweezers"
+                                 class="w-full h-full object-cover opacity-90" />
+                        </figure>
+                        <div class="card-body">
+                            <h3 class="card-title text-white">
+                                Pro Lash Tweezers
+                                <i data-lucide="zap" class="w-4 h-4 text-yellow-400"></i>
+                            </h3>
+                            <p class="text-slate-400 text-sm">Surgical-grade stainless steel. Straight, curved, and volume options. Custom engraving available.</p>
+
+                            <div class="flex items-center gap-2 my-3">
+                                <div class="badge badge-outline badge-sm text-blue-300 border-blue-500/50">Straight</div>
+                                <div class="badge badge-outline badge-sm text-blue-300 border-blue-500/50">Curved</div>
+                                <div class="badge badge-outline badge-sm text-blue-300 border-blue-500/50">Volume</div>
+                            </div>
+
+                            <div class="divider my-2"></div>
+
+                            <div class="flex items-end justify-between">
+                                <div>
+                                    <p class="text-xs text-slate-500">Wholesale Cost</p>
+                                    <p class="text-2xl font-bold text-white">$12<span class="text-sm text-slate-400">/pair</span></p>
+                                    <p class="text-xs text-green-400">Min. order: 5 units</p>
+                                </div>
+                                <button class="btn btn-sm btn-primary bg-purple-600 hover:bg-purple-500 border-none text-white">
+                                    <i data-lucide="plus" class="w-4 h-4"></i>
+                                    Select
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Product Card 4: Lash Adhesive Kit -->
+                    <div class="product-card card bg-slate-900 border border-slate-800 shadow-xl overflow-hidden">
+                        <figure class="relative h-56 bg-gradient-to-br from-green-900/20 to-blue-900/20">
+                            <img src="https://images.unsplash.com/photo-1556228578-8c89e6adf883?w=500&q=80"
+                                 alt="Lash Adhesive"
+                                 class="w-full h-full object-cover opacity-90" />
+                        </figure>
+                        <div class="card-body">
+                            <h3 class="card-title text-white">
+                                Lash Adhesive Kit
+                                <i data-lucide="droplet" class="w-4 h-4 text-blue-400"></i>
+                            </h3>
+                            <p class="text-slate-400 text-sm">Medical-grade adhesive. Fast-dry formula. Includes primer and remover. Private label ready.</p>
+
+                            <div class="flex items-center gap-2 my-3">
+                                <div class="badge badge-outline badge-sm text-green-300 border-green-500/50">Hypoallergenic</div>
+                                <div class="badge badge-outline badge-sm text-green-300 border-green-500/50">Fast-Dry</div>
+                            </div>
+
+                            <div class="divider my-2"></div>
+
+                            <div class="flex items-end justify-between">
+                                <div>
+                                    <p class="text-xs text-slate-500">Wholesale Cost</p>
+                                    <p class="text-2xl font-bold text-white">$15<span class="text-sm text-slate-400">/kit</span></p>
+                                    <p class="text-xs text-green-400">Min. order: 10 units</p>
+                                </div>
+                                <button class="btn btn-sm btn-primary bg-purple-600 hover:bg-purple-500 border-none text-white">
+                                    <i data-lucide="plus" class="w-4 h-4"></i>
+                                    Select
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Product Card 5: Lash Applicator Set -->
+                    <div class="product-card card bg-slate-900 border border-slate-800 shadow-xl overflow-hidden">
+                        <figure class="relative h-56 bg-gradient-to-br from-orange-900/20 to-red-900/20">
+                            <img src="https://images.unsplash.com/photo-1512496015851-a90fb38ba796?w=500&q=80"
+                                 alt="Applicator Set"
+                                 class="w-full h-full object-cover opacity-90" />
+                        </figure>
+                        <div class="card-body">
+                            <h3 class="card-title text-white">
+                                Lash Applicator Set
+                                <i data-lucide="wand-2" class="w-4 h-4 text-orange-400"></i>
+                            </h3>
+                            <p class="text-slate-400 text-sm">Complete beginner kit. Includes 3 applicator styles, travel case. Perfect for retail bundles.</p>
+
+                            <div class="flex items-center gap-2 my-3">
+                                <div class="badge badge-outline badge-sm text-orange-300 border-orange-500/50">3 Styles</div>
+                                <div class="badge badge-outline badge-sm text-orange-300 border-orange-500/50">Travel Case</div>
+                            </div>
+
+                            <div class="divider my-2"></div>
+
+                            <div class="flex items-end justify-between">
+                                <div>
+                                    <p class="text-xs text-slate-500">Wholesale Cost</p>
+                                    <p class="text-2xl font-bold text-white">$6<span class="text-sm text-slate-400">/set</span></p>
+                                    <p class="text-xs text-green-400">Min. order: 15 units</p>
+                                </div>
+                                <button class="btn btn-sm btn-primary bg-purple-600 hover:bg-purple-500 border-none text-white">
+                                    <i data-lucide="plus" class="w-4 h-4"></i>
+                                    Select
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Product Card 6: Volume Lash Fans -->
+                    <div class="product-card card bg-slate-900 border border-slate-800 shadow-xl overflow-hidden">
+                        <figure class="relative h-56 bg-gradient-to-br from-purple-900/20 to-pink-900/20">
+                            <img src="https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?w=500&q=80"
+                                 alt="Volume Fans"
+                                 class="w-full h-full object-cover opacity-90" />
+                            <div class="absolute top-3 right-3">
+                                <span class="badge badge-premium text-white border-none font-semibold">Premium</span>
+                            </div>
+                        </figure>
+                        <div class="card-body">
+                            <h3 class="card-title text-white">
+                                Volume Lash Fans
+                                <i data-lucide="star" class="w-4 h-4 text-yellow-400"></i>
+                            </h3>
+                            <p class="text-slate-400 text-sm">Pre-made 3D-6D volume fans. Saves application time. Professional quality. Custom packaging.</p>
+
+                            <div class="flex items-center gap-2 my-3">
+                                <div class="badge badge-outline badge-sm text-purple-300 border-purple-500/50">3D-6D</div>
+                                <div class="badge badge-outline badge-sm text-purple-300 border-purple-500/50">Pre-made</div>
+                                <div class="badge badge-outline badge-sm text-purple-300 border-purple-500/50">Time-Saver</div>
+                            </div>
+
+                            <div class="divider my-2"></div>
+
+                            <div class="flex items-end justify-between">
+                                <div>
+                                    <p class="text-xs text-slate-500">Wholesale Cost</p>
+                                    <p class="text-2xl font-bold text-white">$18<span class="text-sm text-slate-400">/tray</span></p>
+                                    <p class="text-xs text-green-400">Min. order: 8 units</p>
+                                </div>
+                                <button class="btn btn-sm btn-primary bg-purple-600 hover:bg-purple-500 border-none text-white">
+                                    <i data-lucide="plus" class="w-4 h-4"></i>
+                                    Select
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- Info Banner -->
+                <div class="alert bg-purple-600/10 border border-purple-500/30 mb-6">
+                    <i data-lucide="info" class="w-5 h-5 text-purple-400"></i>
+                    <div>
+                        <h3 class="font-bold text-purple-200">How It Works</h3>
+                        <div class="text-sm text-purple-300">Select a product → Set your retail price → Create campaign → We manufacture after you hit your goal</div>
+                    </div>
+                </div>
+
+            </div>
+        </main>
+
+    </div>
+
+    <script>
+        // Initialize Lucide icons
+        lucide.createIcons();
+
+        // Product selection handler
+        document.querySelectorAll('.product-card button').forEach(btn => {
+            btn.addEventListener('click', function() {
+                // Redirect to campaign creation with product selected
+                window.location.href = 'campaigns.html?action=create';
+            });
+        });
+    </script>
+
+</body>
+</html>
