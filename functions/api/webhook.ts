@@ -1,7 +1,7 @@
-import { getDb } from "@/db/client";
-import * as schema from "@/db/schema";
+import { getDb } from "../db/client";
+import * as schema from "../db/schema";
 import { eq, sql } from "drizzle-orm";
-import { getStripe } from "@/util/stripe";
+import { getStripe } from "../util/stripe";
 
 /**
  * Handles incoming webhooks from Stripe.

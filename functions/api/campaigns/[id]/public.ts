@@ -1,5 +1,5 @@
-import { getDb } from "@/db/client";
-import * as schema from "@/db/schema";
+import { getDb } from "../../../db/client";
+import * as schema from "../../../db/schema";
 import { eq } from "drizzle-orm";
 
 /**

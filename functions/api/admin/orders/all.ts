@@ -1,5 +1,5 @@
-import { getDb } from "@/db/client";
-import { requireAdminUser } from "@/util/auth";
+import { getDb } from "../../../db/client";
+import { requireAdminUser } from "../../../util/auth";
 
 /**
  * GET /api/admin/orders/all

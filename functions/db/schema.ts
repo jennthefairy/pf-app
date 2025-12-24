@@ -73,8 +73,9 @@ export const orders = pgTable("orders", {
   
   // Order Info
   amountPaid: integer("amount_paid").notNull(), // Amount in cents
+  paymentIntentId: text("payment_intent_id").notNull(), // Stripe PaymentIntent ID for capture
   paymentStatus: varchar("payment_status", { length: 50 }).default("completed").notNull(),
   fulfillmentStatus: varchar("fulfillment_status", { length: 50 }).default("PENDING").notNull(),
-  
+
   createdAt: timestamp("created_at", { withTimezone: true }).defaultNow(),
 });

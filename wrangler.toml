@@ -1,0 +1,6 @@
+name = "pagefairy-mvp"
+compatibility_date = "2024-09-23"
+node_compat = true
+
+[env.production]
+name = "pagefairy-mvp-production"

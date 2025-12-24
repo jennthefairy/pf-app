@@ -1,8 +1,8 @@
 // Dynamic checkout route implemented in JavaScript to bypass TS duplicate parsing of bracket filename.
 // Converts :id path parameter into Stripe Checkout session creation.
-import { getDb } from "@/db/client";
-import * as schema from "@/db/schema";
-import { getStripe } from "@/util/stripe";
+import { getDb } from "../../db/client";
+import * as schema from "../../db/schema";
+import { getStripe } from "../../util/stripe";
 import { eq } from "drizzle-orm";
 
 /**

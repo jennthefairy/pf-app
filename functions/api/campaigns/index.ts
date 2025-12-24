@@ -1,6 +1,6 @@
-import { getDb } from "@/db/client";
-import * as schema from "@/db/schema";
-import { requireUser } from "@/util/auth";
+import { getDb } from "../../db/client";
+import * as schema from "../../db/schema";
+import { requireUser } from "../../util/auth";
 import { eq } from "drizzle-orm";
 
 /**

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PageFairy Dashboard - Campaigns</title>
+    <title>PageFairy Dashboard - Orders</title>
 
 
     <!-- Tailwind & DaisyUI -->
@@ -52,7 +52,7 @@
         <aside class="w-64 h-screen flex-col flex-shrink-0 bg-slate-900 border-r border-slate-800 hidden md:flex">
             <!-- Logo -->
             <div class="h-16 flex items-center justify-center px-4 border-b border-slate-800">
-                <a href="app-dashboard-empty.html" class="flex items-center gap-2 text-xl font-bold tracking-tight text-white">
+                <a href="dashboard.html" class="flex items-center gap-2 text-xl font-bold tracking-tight text-white">
                     <i data-lucide="sparkles" class="text-purple-500 w-5 h-5"></i>
                     PageFairy
                 </a>
@@ -61,20 +61,20 @@
 
             <!-- Nav Links -->
             <nav class="flex-1 overflow-y-auto sidebar-nav p-4 space-y-2">
-                <a href="app-dashboard-empty.html" class="flex items-center gap-3 px-4 py-3 rounded-lg text-slate-400 hover:bg-slate-800 hover:text-white transition-colors">
+                <a href="dashboard.html" class="flex items-center gap-3 px-4 py-3 rounded-lg text-slate-400 hover:bg-slate-800 hover:text-white transition-colors">
                     <i data-lucide="home" class="w-5 h-5"></i>
                     <span>Home</span>
                 </a>
-                <!-- Active Link -->
-                <a href="app-campaigns-empty.html" class="flex items-center gap-3 px-4 py-3 rounded-lg bg-purple-600/20 text-purple-300 font-semibold">
+                <a href="#" class="flex items-center gap-3 px-4 py-3 rounded-lg text-slate-400 hover:bg-slate-800 hover:text-white transition-colors">
                     <i data-lucide="gem" class="w-5 h-5"></i>
                     <span>Campaigns</span>
                 </a>
-                <a href="app-orders-empty.html" class="flex items-center gap-3 px-4 py-3 rounded-lg text-slate-400 hover:bg-slate-800 hover:text-white transition-colors">
+                <!-- Active Link -->
+                <a href="orders.html" class="flex items-center gap-3 px-4 py-3 rounded-lg bg-purple-600/20 text-purple-300 font-semibold">
                     <i data-lucide="package" class="w-5 h-5"></i>
                     <span>Orders</span>
                 </a>
-                <a href="app-subscribers-empty.html" class="flex items-center gap-3 px-4 py-3 rounded-lg text-slate-400 hover:bg-slate-800 hover:text-white transition-colors">
+                <a href="subscribers.html" class="flex items-center gap-3 px-4 py-3 rounded-lg text-slate-400 hover:bg-slate-800 hover:text-white transition-colors">
                     <i data-lucide="users" class="w-5 h-5"></i>
                     <span>Subscribers</span>
                 </a>
@@ -87,7 +87,7 @@
 
             <!-- User/Settings Footer -->
             <div class="p-4 border-t border-slate-800">
-                <a href="app-settings-profile.html" class="flex items-center w-full gap-3 px-4 py-3 rounded-lg text-slate-400 hover:bg-slate-800 hover:text-white transition-colors">
+                <a href="settings.html" class="flex items-center w-full gap-3 px-4 py-3 rounded-lg text-slate-400 hover:bg-slate-800 hover:text-white transition-colors">
                     <i data-lucide="settings" class="w-5 h-5"></i>
                     <span>Settings</span>
                 </a>
@@ -107,7 +107,7 @@
                 <button class="btn btn-square btn-ghost" onclick="mobile_menu_modal.showModal()">
                     <i data-lucide="menu" class="w-6 h-6"></i>
                 </button>
-                <a href="app-dashboard-empty.html" class="flex items-center gap-2 text-xl font-bold tracking-tight text-white">
+                <a href="dashboard.html" class="flex items-center gap-2 text-xl font-bold tracking-tight text-white">
                     <i data-lucide="sparkles" class="text-purple-500 w-5 h-5"></i>
                     PageFairy
                 </a>
@@ -120,28 +120,28 @@
                 <div class="max-w-7xl mx-auto">
                     
                     <!-- Page Header -->
-                    <div class="flex flex-col md:flex-row md:items-center md:justify-between mb-8">
-                        <div>
-                            <h1 class="text-3xl font-bold text-white mb-1">Campaigns</h1>
-                            <p class="text-slate-400">Manage all your campaigns (active, successful, and failed).</p>
-                        </div>
-                        <a href="app-create-campaign-step1.html" class="btn btn-primary rounded-full mt-4 md:mt-0 gap-2 bg-purple-600 hover:bg-purple-500 border-none text-white font-bold shadow-lg shadow-purple-600/25">
-                            <i data-lucide="plus" class="w-5 h-5"></i>
-                            Create New Campaign
-                        </a>
+                    <div class="mb-8">
+                        <h1 class="text-3xl font-bold text-white mb-1">Orders</h1>
+                        <p class="text-slate-400">View and manage customer orders from successful campaigns.</p>
                     </div>
 
 
-                    <!-- Empty State (Future list/table will go here) -->
+                    <!-- Empty State CTA -->
                     <div class="dashed-box rounded-2xl p-8 md:p-12 text-center glass-pane">
                         <div class="w-20 h-20 rounded-full bg-slate-800 border-2 border-slate-700 flex items-center justify-center mx-auto mb-6">
-                            <i data-lucide="gem" class="w-10 h-10 text-purple-400"></i>
+                            <i data-lucide="package" class="w-10 h-10 text-purple-400"></i>
                         </div>
                         
-                        <h2 class="text-2xl font-bold text-white mb-3">No campaigns created yet</h2>
+                        <h2 class="text-2xl font-bold text-white mb-3">You have no orders... yet!</h2>
                         <p class="text-lg text-slate-400 max-w-lg mx-auto mb-8">
-                           This is where you'll manage all your pre-order campaigns. Click the button above to launch your first one!
+                            Customer orders from your validated pre-order campaigns will appear here once they are successful.
                         </p>
+
+
+                        <a href="campaigns.html" class="btn btn-primary btn-lg rounded-full bg-purple-600 hover:bg-purple-500 border-none text-white font-bold shadow-lg shadow-purple-600/25 gap-2 px-8">
+                            <i data-lucide="plus" class="w-5 h-5"></i>
+                            Create First Campaign
+                        </a>
                     </div>
 
 
@@ -156,7 +156,7 @@
         <div class="modal-box fullscreen !bg-slate-900">
             <!-- Modal Header -->
             <div class="h-16 flex items-center justify-between px-4 border-b border-slate-800">
-                <a href="app-dashboard-empty.html" class="flex items-center gap-2 text-xl font-bold tracking-tight text-white">
+                <a href="dashboard.html" class="flex items-center gap-2 text-xl font-bold tracking-tight text-white">
                     <i data-lucide="sparkles" class="text-purple-500 w-5 h-5"></i>
                     PageFairy
                 </a>
@@ -167,20 +167,20 @@
             
             <!-- Copied Nav Links -->
             <nav class="flex-1 overflow-y-auto sidebar-nav p-4 space-y-2">
-                <a href="app-dashboard-empty.html" class="flex items-center gap-3 px-4 py-3 rounded-lg text-slate-400 hover:bg-slate-800 hover:text-white transition-colors">
+                <a href="dashboard.html" class="flex items-center gap-3 px-4 py-3 rounded-lg text-slate-400 hover:bg-slate-800 hover:text-white transition-colors">
                     <i data-lucide="home" class="w-5 h-5"></i>
                     <span>Home</span>
                 </a>
-                <!-- Active Link -->
-                <a href="app-campaigns-empty.html" class="flex items-center gap-3 px-4 py-3 rounded-lg bg-purple-600/20 text-purple-300 font-semibold">
+                <a href="#" class="flex items-center gap-3 px-4 py-3 rounded-lg text-slate-400 hover:bg-slate-800 hover:text-white transition-colors">
                     <i data-lucide="gem" class="w-5 h-5"></i>
                     <span>Campaigns</span>
                 </a>
-                <a href="app-orders-empty.html" class="flex items-center gap-3 px-4 py-3 rounded-lg text-slate-400 hover:bg-slate-800 hover:text-white transition-colors">
+                <!-- Active Link -->
+                <a href="orders.html" class="flex items-center gap-3 px-4 py-3 rounded-lg bg-purple-600/20 text-purple-300 font-semibold">
                     <i data-lucide="package" class="w-5 h-5"></i>
                     <span>Orders</span>
                 </a>
-                <a href="app-subscribers-empty.html" class="flex items-center gap-3 px-4 py-3 rounded-lg text-slate-400 hover:bg-slate-800 hover:text-white transition-colors">
+                <a href="subscribers.html" class="flex items-center gap-3 px-4 py-3 rounded-lg text-slate-400 hover:bg-slate-800 hover:text-white transition-colors">
                     <i data-lucide="users" class="w-5 h-5"></i>
                     <span>Subscribers</span>
                 </a>
@@ -193,7 +193,7 @@
 
             <!-- Copied User/Settings Footer -->
             <div class="p-4 border-t border-slate-800">
-                <a href="app-settings-profile.html" class="flex items-center w-full gap-3 px-4 py-3 rounded-lg text-slate-400 hover:bg-slate-800 hover:text-white transition-colors">
+                <a href="settings.html" class="flex items-center w-full gap-3 px-4 py-3 rounded-lg text-slate-400 hover:bg-slate-800 hover:text-white transition-colors">
                     <i data-lucide="settings" class="w-5 h-5"></i>
                     <span>Settings</span>
                 </a>

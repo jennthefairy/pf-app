@@ -1,41 +1,25 @@
 import { json, bad } from "../../util/responses";
-import { requireUser } from "../../util/auth";
 
 export const onRequestPost: PagesFunction = async (ctx) => {
-  // Verify authentication in production
-  if ((ctx.env as any).ENV === "production") {
-    const user = await requireUser(ctx);
-    if (!user) {
-      return bad("You must be logged in.", 401);
-    }
-  }
-
   try {
-    const { price_id, plan, customer_email, user_id, profile_id } = await ctx.request.json() as any;
-    
-    if (!price_id || !customer_email) {
-      return bad("Missing required fields: price_id, customer_email");
+    const { amount, campaign_id, customer_email, customer_name, shipping_address } = await ctx.request.json() as any;
+
+    if (!amount || !campaign_id || !customer_email) {
+      return bad("Missing required fields: amount, campaign_id, customer_email");
     }
 
-    // Build success and cancel URLs
-    const baseUrl = new URL(ctx.request.url).origin;
-    const successUrl = `${baseUrl}/app/settings.html?success=1`;
-    const cancelUrl = `${baseUrl}/app/settings.html?canceled=1`;
-
-    // Create Stripe checkout session
+    // Create Stripe PaymentIntent with manual capture for pre-authorization
     const params = new URLSearchParams({
-      mode: "subscription",
-      customer_email,
-      "line_items[0][price]": price_id,
-      "line_items[0][quantity]": "1",
-      success_url: successUrl,
-      cancel_url: cancelUrl,
-      "metadata[plan]": plan || "",
-      "metadata[user_id]": user_id || "",
-      "metadata[profile_id]": profile_id || ""
+      amount: amount.toString(),
+      currency: "usd",
+      capture_method: "manual", // This creates a pre-authorization hold
+      "metadata[campaign_id]": campaign_id.toString(),
+      "metadata[customer_email]": customer_email,
+      "metadata[customer_name]": customer_name || "",
+      "metadata[shipping_address]": shipping_address ? JSON.stringify(shipping_address) : ""
     });
 
-    const res = await fetch("https://api.stripe.com/v1/checkout/sessions", {
+    const res = await fetch("https://api.stripe.com/v1/payment_intents", {
       method: "POST",
       headers: {
         "Authorization": `Bearer ${(ctx.env as any).STRIPE_SECRET_KEY}`,
@@ -45,13 +29,17 @@ export const onRequestPost: PagesFunction = async (ctx) => {
     });
 
     const data = await res.json() as any;
-    
+
     if (!res.ok) {
       console.error("Stripe error:", data);
       return json({ ok: false, error: data?.error?.message || "stripe_error" }, { status: 400 });
     }
 
-    return json({ ok: true, url: data.url });
+    return json({
+      ok: true,
+      clientSecret: data.client_secret,
+      paymentIntentId: data.id
+    });
   } catch (e: any) {
     console.error("Checkout error:", e);
     return bad(e?.message || "checkout_failed");
