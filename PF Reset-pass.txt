@@ -1,0 +1,69 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+   <meta charset="UTF-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <title>Reset Your Password - PageFairy</title>
+   <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;700&family=DM+Sans:wght@400;700&family=Oleo+Script:wght@400;700&display=swap" rel="stylesheet">
+   <script src="https://cdn.tailwindcss.com"></script>
+   <link href="https://cdn.jsdelivr.net/npm/daisyui@4.10.1/dist/full.min.css" rel="stylesheet" type="text/css" />
+   <script src="config.js"></script>
+   <script src="https://cdn.jsdelivr.net/npm/pocketbase@0.21.0/dist/pocketbase.umd.js"></script>
+</head>
+<body style="background-color: #F1F5F9; font-family: 'DM Sans', sans-serif !important; font-weight: 500 !important; ">
+
+
+   <main class="flex items-center justify-center min-h-screen p-4">
+       <div class="w-full max-w-md">
+            <div class="text-center mb-8">
+               <h1 class="text-4xl font-bold text-slate-800 mb-3" style=" font-family: 'Oleo Script', cursive !important; font-weight: 700 !important; ">PageFairy</h1>
+               <p class="text-slate-500">Create a new password for your account.</p>
+           </div>
+
+
+           <div class="card bg-white shadow-xl border">
+               <div class="card-body p-8">
+                   <p class="text-slate-500 mb-6 text-center">Choose a strong, new password. This will replace your old password.</p>
+                  
+                   <form id="reset-form" class="space-y-4">
+                       <div class="form-control">
+                           <label class="label"><span class="label-text">New Password</span></label>
+                           <input id="password" type="password" placeholder="••••••••" class="input input-bordered w-full" required />
+                       </div>
+                        <div class="form-control">
+                           <label class="label"><span class="label-text">Confirm New Password</span></label>
+                           <input id="confirm" type="password" placeholder="••••••••" class="input input-bordered w-full" required />
+                       </div>
+                      
+                       <div class="form-control pt-2">
+                           <button type="submit" class="btn btn-primary w-full text-white" style="background-color: #ff7096;">Save New Password</button>
+                       </div>
+                   </form>
+               </div>
+           </div>
+       </div>
+   </main>
+       <script>
+           const pb = new PocketBase(window.PB_URL);
+           const params = new URLSearchParams(window.location.search);
+           const token = params.get('token') || params.get('tokenHash') || '';
+           const email = params.get('email') || '';
+           document.getElementById('reset-form').addEventListener('submit', async (e) => {
+               e.preventDefault();
+               const password = document.getElementById('password').value;
+               const confirm = document.getElementById('confirm').value;
+               if (password !== confirm) { alert('Passwords do not match.'); return; }
+               try {
+                   const workerUrl = (window.API_BASE || '').replace(/\/$/, '');
+                   const endpoint = workerUrl ? `${workerUrl}/api/auth/confirm-password-reset` : `${window.PB_URL}/api/collections/users/confirm-password-reset`;
+                   const res = await fetch(endpoint, { method:'POST', headers:{ 'content-type':'application/json' }, body: JSON.stringify({ token, password, passwordConfirm: confirm }) });
+                   if (!res.ok) throw new Error(await res.text());
+                   alert('Password updated. Please log in.');
+                   window.location.href = 'login.html';
+               } catch (err) {
+                   alert('Reset failed: ' + (err?.message || err));
+               }
+           });
+       </script>
+</body>
+</html>

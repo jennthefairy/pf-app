@@ -1,0 +1,64 @@
+﻿<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+   <meta charset="UTF-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <title>Login - PageFairy</title>
+   <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;700&family=DM+Sans:wght@400;700&family=Oleo+Script:wght@400;700&display=swap" rel="stylesheet">
+
+
+   <script src="https://cdn.tailwindcss.com"></script>
+   <link href="https://cdn.jsdelivr.net/npm/daisyui@4.10.1/dist/full.min.css" rel="stylesheet" type="text/css" />
+</head>
+<body style="background-color: #F1F5F9; font-family: 'DM Sans', sans-serif !important; font-weight: 500 !important; ">
+ <div class="min-h-screen flex flex-col items-center justify-center bg-slate-100 p-4">
+       <div class="w-full max-w-md">
+           <div class="text-center mb-8">
+                <h1 class="text-4xl font-bold text-slate-800 mb-3" style=" font-family: 'Oleo Script', cursive !important; font-weight: 700 !important; ">PageFairy</h1>
+                <p class="text-slate-500">Welcome back! Please log in.</p>
+           </div>
+           <div class="card w-full bg-base-100 shadow-xl border">
+               <div class="card-body">
+                    <div class="form-control w-full">
+                       <label class="label"><span class="label-text">Email Address</span></label>
+                       <input type="email" placeholder="you@example.com" class="input input-bordered w-full" />
+                   </div>
+                   <div class="form-control w-full">
+                       <label class="label"><span class="label-text">Password</span></label>
+                       <input type="password" placeholder="••••••••" class="input input-bordered w-full" />
+                   </div>
+                   <div class="card-actions justify-center mt-4">
+                     <button class="btn  w-full text-white" style="background-color: #ff7096;">Log In</button>
+                   </div>
+               </div>
+           </div>
+            <div class="text-center mt-4">
+               <a href="#" class="text-sm">Don't have an account? Sign Up</a>
+           </div>
+       </div>
+   </div>
+<script>window.parent.postMessage({ action: "ready" }, "*");
+window.console = new Proxy(console, {
+ get(target, prop) {
+   if (['log', 'warn', 'error'].includes(prop)) {
+     return new Proxy(target[prop], {
+       apply(fn, thisArg, args) {
+         fn.apply(thisArg, args);
+         window.parent.postMessage({ action: 'console',
+           type: prop,
+           args: args.map((arg) => {
+             try {
+               return JSON.stringify(arg).replace(/^["']|["']$/g, '');
+             } catch (e) {
+               return arg;
+             }
+           })
+         }, '*');
+       }
+     });
+   }
+   return target[prop];
+ }
+});
+</script></body>
+</html>

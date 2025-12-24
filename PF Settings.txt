@@ -1,0 +1,428 @@
+﻿<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PageFairy Dashboard - Settings</title>
+
+
+    <!-- Tailwind & DaisyUI -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@4.10.1/dist/full.min.css" rel="stylesheet" type="text/css" />
+    
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+
+    <style>
+        /* Main app layout styles */
+        html, body { height: 100%; overflow: hidden; }
+        body { background-color: #0b1120; }
+        .glass-card {
+            background: rgba(30, 41, 59, 0.7);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        
+        /* Custom scrollbar for sidebar */
+        .sidebar-nav::-webkit-scrollbar { width: 4px; }
+        .sidebar-nav::-webkit-scrollbar-thumb { background: #4a0e9a; border-radius: 4px; }
+        .sidebar-nav { scrollbar-width: thin; scrollbar-color: #4a0e9a #1e293b; }
+        
+        /* Full-screen modal styles */
+        .modal-box.fullscreen {
+            width: 100vw; max-width: 100vw;
+            height: 100vh; max-height: 100vh;
+            border-radius: 0; padding: 0;
+            background-color: #1e293b; /* slate-800 */
+        }
+        
+        /* --- NEW SETTINGS SUB-NAV --- */
+        .settings-nav-item {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem; /* gap-3 */
+            padding: 0.75rem 1rem; /* px-4 py-3 */
+            border-radius: 0.5rem; /* rounded-lg */
+            color: #94a3b8; /* text-slate-400 */
+            transition: all 0.2s ease-in-out;
+            font-weight: 500;
+            border: 2px solid transparent;
+        }
+        .settings-nav-item:hover {
+            background-color: #1e293b; /* bg-slate-800 */
+            color: #ffffff; /* text-white */
+        }
+        .settings-nav-item.active {
+            background-color: rgba(147, 51, 234, 0.1); /* bg-purple-600/10 */
+            color: #c084fc; /* text-purple-400 */
+            font-weight: 600;
+            border-color: rgba(147, 51, 234, 0.3);
+        }
+        
+        /* Hide scrollbar for mobile horizontal nav */
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    </style>
+</head>
+<body class="bg-slate-950 text-white font-sans antialiased">
+
+
+    <div class="flex h-screen">
+        
+        <!-- ===== DESKTOP Sidebar (Hidden on mobile) ===== -->
+        <aside class="w-64 h-screen flex-col flex-shrink-0 bg-slate-900 border-r border-slate-800 hidden md:flex">
+            <!-- Logo -->
+            <div class="h-16 flex items-center justify-center px-4 border-b border-slate-800">
+                <a href="app-dashboard-empty.html" class="flex items-center gap-2 text-xl font-bold tracking-tight text-white"><i data-lucide="sparkles" class="text-purple-500 w-5 h-5"></i>PageFairy</a>
+            </div>
+            <!-- Nav Links -->
+            <nav class="flex-1 overflow-y-auto sidebar-nav p-4 space-y-2">
+                <a href="app-dashboard-empty.html" class="flex items-center gap-3 px-4 py-3 rounded-lg text-slate-400 hover:bg-slate-800 hover:text-white transition-colors"><i data-lucide="home" class="w-5 h-5"></i><span>Home</span></a>
+                <a href="app-campaigns-empty.html" class="flex items-center gap-3 px-4 py-3 rounded-lg text-slate-400 hover:bg-slate-800 hover:text-white transition-colors"><i data-lucide="gem" class="w-5 h-5"></i><span>Campaigns</span></a>
+                <a href="app-orders-empty.html" class="flex items-center gap-3 px-4 py-3 rounded-lg text-slate-400 hover:bg-slate-800 hover:text-white transition-colors"><i data-lucide="package" class="w-5 h-5"></i><span>Orders</span></a>
+                <a href="app-subscribers-empty.html" class="flex items-center gap-3 px-4 py-3 rounded-lg text-slate-400 hover:bg-slate-800 hover:text-white transition-colors"><i data-lucide="users" class="w-5 h-5"></i><span>Subscribers</span></a>
+                <a href="app-product-catalog.html" class="flex items-center gap-3 px-4 py-3 rounded-lg text-slate-400 hover:bg-slate-800 hover:text-white transition-colors"><i data-lucide="book-marked" class="w-5 h-5"></i><span>Products</span></a>
+            </nav>
+            <!-- User/Settings Footer -->
+            <div class="p-4 border-t border-slate-800">
+                <a href="app-settings.html" class="flex items-center w-full gap-3 px-4 py-3 rounded-lg bg-purple-600/20 text-purple-300 font-semibold"><i data-lucide="settings" class="w-5 h-5"></i><span>Settings</span></a>
+                <a href="#" class="flex items-center w-full gap-3 px-4 py-3 rounded-lg text-slate-400 hover:bg-slate-800 hover:text-red-400 transition-colors"><i data-lucide="log-out" class="w-5 h-5"></i><span>Log Out</span></a>
+            </div>
+        </aside>
+
+
+        <!-- ===== Main Content Area ===== -->
+        <div class="flex-1 flex flex-col h-screen">
+            
+            <!-- Mobile-only Header (with Hamburger) -->
+            <header class="h-16 flex items-center justify-between px-4 bg-slate-900 border-b border-slate-800 md:hidden sticky top-0 z-20">
+                <button class="btn btn-square btn-ghost" onclick="mobile_menu_modal.showModal()"><i data-lucide="menu" class="w-6 h-6"></i></button>
+                <a href="app-dashboard-empty.html" class="flex items-center gap-2 text-xl font-bold tracking-tight text-white"><i data-lucide="sparkles" class="text-purple-500 w-5 h-5"></i>PageFairy</a>
+                <div class="w-10"></div>
+            </header>
+
+
+            <!-- Scrollable Main Content -->
+            <main class="flex-1 overflow-y-auto p-4 md:p-8">
+                <div class="max-w-7xl mx-auto">
+                    
+                    <!-- Page Header -->
+                    <div class="mb-8">
+                        <h1 class="text-3xl font-bold text-white mb-1">Settings</h1>
+                        <p class="text-slate-400">Manage your brand, links, and payment settings.</p>
+                    </div>
+
+
+                    <!-- NEW Two-Column Responsive Layout -->
+                    <div class="flex flex-col md:flex-row gap-8 lg:gap-12">
+                        
+                        <!-- Left: Sub-Navigation -->
+                        <aside class="w-full md:w-1/3 lg:w-1/4">
+                            <!-- Mobile: Horizontal Scroll | Desktop: Vertical Flex -->
+                            <nav id="settings-nav" class="flex flex-row overflow-x-auto md:flex-col md:overflow-x-visible no-scrollbar space-x-4 md:space-x-0 md:space-y-2">
+                                <a href="#profile" data-target="profile" class="settings-nav-item active flex-shrink-0 md:flex-shrink">
+                                    <i data-lucide="user-circle" class="w-5 h-5"></i><span>Profile</span>
+                                </a>
+                                <a href="#links" data-target="links" class="settings-nav-item flex-shrink-0 md:flex-shrink">
+                                    <i data-lucide="link" class="w-5 h-5"></i><span>Links</span>
+                                </a>
+                                <a href="#payments" data-target="payments" class="settings-nav-item flex-shrink-0 md:flex-shrink">
+                                    <i data-lucide="credit-card" class="w-5 h-5"></i><span>Payments</span>
+                                </a>
+                                <a href="#integrations" data-target="integrations" class="settings-nav-item flex-shrink-0 md:flex-shrink">
+                                    <i data-lucide="plug-zap" class="w-5 h-5"></i><span>Integrations</span>
+                                </a>
+                            </nav>
+                        </aside>
+
+
+                        <!-- Right: Content Panels -->
+                        <div class="flex-1">
+                            
+                            <!-- ===== PANEL 1: PROFILE ===== -->
+                            <div id="panel-profile" class="settings-panel">
+                                <div class="glass-card rounded-2xl">
+                                    <form class="p-6 md:p-8 space-y-6">
+                                        <!-- Form Header -->
+                                        <div class="pb-4 border-b border-slate-700">
+                                            <h2 class="text-xl font-bold text-white">Public Profile</h2>
+                                            <p class="text-slate-400">This controls your `pagefairy.me/username` page.</p>
+                                        </div>
+                                        <!-- Brand Logo -->
+                                        <div>
+                                            <label class="block text-sm font-medium text-slate-300 mb-2">Brand Logo</label>
+                                            <div class="flex items-center gap-4">
+                                                <img src="https://placehold.co/80x80/9333ea/FFF?text=LB" alt="Logo" class="w-20 h-20 rounded-full" />
+                                                <label for="logo-upload" class="btn btn-outline btn-primary rounded-full cursor-pointer">
+                                                    Change Logo
+                                                    <input type="file" id="logo-upload" class="hidden" />
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <!-- Brand Name -->
+                                        <div>
+                                            <label for="brand_name" class="block text-sm font-medium text-slate-300 mb-2">Brand Name</label>
+                                            <input type="text" id="brand_name" value="Lashy Bloom" class="input input-bordered input-lg w-full rounded-lg bg-slate-800 border-slate-700" />
+                                        </div>
+                                        <!-- Username -->
+                                        <div>
+                                            <label for="username" class="block text-sm font-medium text-slate-300 mb-2">Your URL</label>
+                                            <div class="join w-full">
+                                                <span class="join-item inline-flex items-center px-4 rounded-l-lg bg-slate-800 border border-slate-700 text-slate-400 text-lg">pagefairy.me/</span>
+                                                <input type="text" id="username" value="lashybloom" class="join-item input input-lg w-full rounded-r-lg bg-slate-800 border-slate-700" />
+                                            </div>
+                                        </div>
+                                        <!-- Brand Style -->
+                                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                                            <div>
+                                                <label for="brand_color" class="block text-sm font-medium text-slate-300 mb-2">Brand Color</label>
+                                                <div class="relative">
+                                                    <input type="text" id="brand_color" value="#9333EA" class="input input-bordered input-lg w-full rounded-lg bg-slate-800 border-slate-700 pl-14" />
+                                                    <input type="color" value="#9333EA" class="absolute left-2 top-1/2 -translate-y-1/2 w-10 h-10 p-0 border-none rounded-lg cursor-pointer"/>
+                                                </div>
+                                            </div>
+                                            <div>
+                                                <label for="brand_font" class="block text-sm font-medium text-slate-300 mb-2">Brand Font</label>
+                                                <select id="brand_font" class="select select-lg select-bordered w-full rounded-lg bg-slate-800 border-slate-700">
+                                                    <option>Modern (Sans Serif)</option>
+                                                    <option>Elegant (Serif)</option>
+                                                    <option>Bold (Display)</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </form>
+                                    <div class="px-6 md:px-8 py-4 bg-slate-900/50 border-t border-slate-700 rounded-b-2xl flex justify-end">
+                                        <button class="btn btn-primary rounded-full bg-purple-600 hover:bg-purple-500 border-none text-white font-bold gap-2">Save Changes</button>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <!-- ===== PANEL 2: LINKS ===== -->
+                            <div id="panel-links" class="settings-panel hidden">
+                                <div class="glass-card rounded-2xl">
+                                    <div class="p-6 md:p-8 border-b border-slate-700 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+                                        <div>
+                                            <h2 class="text-xl font-bold text-white">Your "Link-in-Bio" Links</h2>
+                                            <p class="text-slate-400">Add custom links to your public page.</p>
+                                        </div>
+                                        <button class="btn btn-primary rounded-full bg-purple-600 hover:bg-purple-500 border-none text-white font-bold gap-2" onclick="link_modal.showModal()">
+                                            <i data-lucide="plus" class="w-5 h-5"></i> Add New Link
+                                        </button>
+                                    </div>
+                                    <div class="p-6 md:p-8 space-y-4">
+                                        <!-- Sample Link 1 -->
+                                        <div class="flex items-center gap-3 p-4 bg-slate-800/50 rounded-lg border border-slate-700">
+                                            <i data-lucide="grip-vertical" class="w-5 h-5 text-slate-500 cursor-grab flex-shrink-0"></i>
+                                            <div class="flex-1 overflow-hidden">
+                                                <h3 class="font-bold text-white break-words">My Lash Tech Course</h3>
+                                                <p class="text-sm text-slate-400 break-words">https://mycoursetobook.com/a-very-long-link-to-show-how-it-wraps-on-mobile</p>
+                                            </div>
+                                            <button class="btn btn-ghost btn-sm btn-square flex-shrink-0"><i data-lucide="edit-2" class="w-4 h-4"></i></button>
+                                            <button class="btn btn-ghost btn-sm btn-square text-red-500 flex-shrink-0"><i data-lucide="trash-2" class="w-4 h-4"></i></button>
+                                        </div>
+                                        <!-- Sample Link 2 -->
+                                        <div class="flex items-center gap-3 p-4 bg-slate-800/50 rounded-lg border border-slate-700">
+                                            <i data-lucide="grip-vertical" class="w-5 h-5 text-slate-500 cursor-grab flex-shrink-0"></i>
+                                            <div class="flex-1 overflow-hidden">
+                                                <h3 class="font-bold text-white break-words">Book an Appointment</h3>
+                                                <p class="text-sm text-slate-400 break-words">https://calendly.com/lashybloom</p>
+                                            </div>
+                                            <button class="btn btn-ghost btn-sm btn-square flex-shrink-0"><i data-lucide="edit-2" class="w-4 h-4"></i></button>
+                                            <button class="btn btn-ghost btn-sm btn-square text-red-500 flex-shrink-0"><i data-lucide="trash-2" class="w-4 h-4"></i></button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- ===== PANEL 3: PAYMENTS ===== -->
+                            <div id="panel-payments" class="settings-panel hidden">
+                                <div class="space-y-6">
+                                    <div class="glass-card rounded-2xl">
+                                        <div class="p-6 md:p-8">
+                                            <h2 class="text-xl font-bold text-white mb-4">Payment Provider</h2>
+                                            <div class="flex flex-col md:flex-row items-start md:items-center gap-4 p-6 bg-slate-800/50 rounded-lg border border-slate-700">
+                                                <i data-lucide="check-circle" class="w-10 h-10 text-green-400 flex-shrink-0"></i>
+                                                <div class="flex-1">
+                                                    <h3 class="text-lg font-semibold text-white">Stripe Account Connected</h3>
+                                                    <p class="text-slate-400">Your account `acct_...xqs` is active. You are ready to accept pre-orders.</p>
+                                                </div>
+                                                <button class="btn btn-outline btn-primary rounded-full md:ml-auto w-full md:w-auto mt-4 md:mt-0">Manage Stripe</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="glass-card rounded-2xl">
+                                        <div class="p-6 md:p-8">
+                                            <h2 class="text-xl font-bold text-white mb-4">Our Pricing</h2>
+                                            <p class="text-slate-400 mb-6">We only make money when you do. No setup fees, no monthly costs.</p>
+                                            <div class="flex flex-col md:flex-row items-center gap-6 p-6 bg-slate-800/50 rounded-lg border border-slate-700">
+                                                <div class="flex-shrink-0"><span class="text-6xl font-extrabold text-purple-400">5%</span></div>
+                                                <div class="flex-1 text-left">
+                                                    <h3 class="text-lg font-semibold text-white">Platform Success Fee</h3>
+                                                    <p class="text-slate-400">A 5% fee is automatically deducted from each successful sale. This fee, along with Stripe's standard processing fee (2.9% + $0.30) and the product's wholesale cost, is deducted at the time of purchase.</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <!-- ===== PANEL 4: INTEGRATIONS ===== -->
+                            <div id="panel-integrations" class="settings-panel hidden">
+                                <div class="glass-card rounded-2xl">
+                                    <div class="p-6 md:p-8">
+                                        <h2 class="text-xl font-bold text-white mb-2">Integrations</h2>
+                                        <p class="text-slate-400 mb-6">Automatically send your subscribers to your favorite tools. More coming soon!</p>
+                                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                            <!-- General "Coming Soon" Grid -->
+                                            <div class="flex items-center gap-4 p-4 bg-slate-800/50 rounded-lg border border-slate-700 opacity-50">
+                                                <img src="https://placehold.co/48x48/1e293b/FFF?text=MC" alt="Mailchimp" class="w-12 h-12 rounded-lg"/>
+                                                <h3 class="text-lg font-semibold text-slate-300">Mailchimp</h3>
+                                                <span class="badge badge-outline badge-sm ml-auto">Coming Soon</span>
+                                            </div>
+                                            <div class="flex items-center gap-4 p-4 bg-slate-800/50 rounded-lg border border-slate-700 opacity-50">
+                                                <img src="https://placehold.co/48x48/1e293b/FFF?text=KV" alt="Klaviyo" class="w-12 h-12 rounded-lg"/>
+                                                <h3 class="text-lg font-semibold text-slate-300">Klaviyo</h3>
+                                                <span class="badge badge-outline badge-sm ml-auto">Coming Soon</span>
+                                            </div>
+                                            <div class="flex items-center gap-4 p-4 bg-slate-800/50 rounded-lg border border-slate-700 opacity-50">
+                                                <img src="https://placehold.co/48x48/1e293b/FFF?text=FD" alt="Flodesk" class="w-12 h-12 rounded-lg"/>
+                                                <h3 class="text-lg font-semibold text-slate-300">Flodesk</h3>
+                                                <span class="badge badge-outline badge-sm ml-auto">Coming Soon</span>
+                                            </div>
+                                            <div class="flex items-center gap-4 p-4 bg-slate-800/50 rounded-lg border border-slate-700 opacity-50">
+                                                <img src="https://placehold.co/48x48/1e293b/FFF?text=ZP" alt="Zapier" class="w-12 h-12 rounded-lg"/>
+                                                <h3 class="text-lg font-semibold text-slate-300">Zapier</h3>
+                                                <span class="badge badge-outline badge-sm ml-auto">Coming Soon</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div> 
+    </div>
+
+
+    <!-- ===== Add/Edit Link Modal (Unchanged) ===== -->
+    <dialog id="link_modal" class="modal modal-bottom sm:modal-middle">
+        <div class="modal-box glass-card !bg-slate-900 border border-slate-700">
+            <h3 class="font-bold text-xl text-white mb-6">Add New Link</h3>
+            <form class="space-y-4">
+                <div>
+                    <label for="link_title" class="block text-sm font-medium text-slate-300 mb-2">Title</label>
+                    <input type="text" id="link_title" placeholder="e.g., Book an Appointment" class="input input-bordered input-lg w-full rounded-lg bg-slate-800 border-slate-700" />
+                </div>
+                <div>
+                    <label for="link_url" class="block text-sm font-medium text-slate-300 mb-2">URL</label>
+                    <input type="url" id="link_url" placeholder="https://..." class="input input-bordered input-lg w-full rounded-lg bg-slate-800 border-slate-700" />
+                </div>
+            </form>
+            <div class="modal-action mt-8">
+                <form method="dialog" class="flex-1 flex flex-col sm:flex-row gap-4">
+                    <button class="btn btn-ghost rounded-full flex-1">Cancel</button>
+                    <button class="btn btn-primary rounded-full bg-purple-600 hover:bg-purple-500 border-none text-white font-bold flex-1">Save Link</button>
+                </form>
+            </div>
+        </div>
+        <form method="dialog" class="modal-backdrop"><button>close</button></form>
+    </dialog>
+
+
+    <!-- ===== MOBILE Full-Screen Menu (Modal) (Unchanged) ===== -->
+    <dialog id="mobile_menu_modal" class="modal">
+        <div class="modal-box fullscreen !bg-slate-900">
+            <!-- Modal Header -->
+            <div class="h-16 flex items-center justify-between px-4 border-b border-slate-800">
+                <a href="app-dashboard-empty.html" class="flex items-center gap-2 text-xl font-bold tracking-tight text-white"><i data-lucide="sparkles" class="text-purple-500 w-5 h-5"></i>PageFairy</a>
+                <button class="btn btn-ghost btn-circle" onclick="mobile_menu_modal.close()"><i data-lucide="x" class="w-6 h-6"></i></button>
+            </div>
+            <!-- Copied Nav Links -->
+            <nav class="flex-1 overflow-y-auto sidebar-nav p-4 space-y-2">
+                <a href="app-dashboard-empty.html" class="flex items-center gap-3 px-4 py-3 rounded-lg text-slate-400 hover:bg-slate-800 hover:text-white transition-colors"><i data-lucide="home" class="w-5 h-5"></i><span>Home</span></a>
+                <a href="app-campaigns-empty.html" class="flex items-center gap-3 px-4 py-3 rounded-lg text-slate-400 hover:bg-slate-800 hover:text-white transition-colors"><i data-lucide="gem" class="w-5 h-5"></i><span>Campaigns</span></a>
+                <a href="app-orders-empty.html" class="flex items-center gap-3 px-4 py-3 rounded-lg text-slate-400 hover:bg-slate-800 hover:text-white transition-colors"><i data-lucide="package" class="w-5 h-5"></i><span>Orders</span></a>
+                <a href="app-subscribers-empty.html" class="flex items-center gap-3 px-4 py-3 rounded-lg text-slate-400 hover:bg-slate-800 hover:text-white transition-colors"><i data-lucide="users" class="w-5 h-5"></i><span>Subscribers</span></a>
+                <a href="app-product-catalog.html" class="flex items-center gap-3 px-4 py-3 rounded-lg text-slate-400 hover:bg-slate-800 hover:text-white transition-colors"><i data-lucide="book-marked" class="w-5 h-5"></i><span>Products</span></a>
+            </nav>
+            <!-- Copied User/Settings Footer -->
+            <div class="p-4 border-t border-slate-800">
+                <a href="app-settings.html" class="flex items-center w-full gap-3 px-4 py-3 rounded-lg bg-purple-600/20 text-purple-300 font-semibold"><i data-lucide="settings" class="w-5 h-5"></i><span>Settings</span></a>
+                <a href="#" class="flex items-center w-full gap-3 px-4 py-3 rounded-lg text-slate-400 hover:bg-slate-800 hover:text-red-400 transition-colors"><i data-lucide="log-out" class="w-5 h-5"></i><span>Log Out</span></a>
+            </div>
+        </div>
+        <form method="dialog" class="modal-backdrop"><button>close</button></form>
+    </dialog>
+
+
+    <script>
+        // Initialize Lucide Icons
+        lucide.createIcons();
+
+
+        // --- NEW Settings Panel Navigation ---
+        document.addEventListener('DOMContentLoaded', () => {
+            const navLinks = document.querySelectorAll('.settings-nav-item');
+            const panels = document.querySelectorAll('.settings-panel');
+
+
+            function showPanel(targetId) {
+                // Hide all panels
+                panels.forEach(panel => {
+                    panel.classList.add('hidden');
+                });
+                
+                // Deactivate all links
+                navLinks.forEach(link => {
+                    link.classList.remove('active');
+                });
+
+
+                // Show target panel
+                const targetPanel = document.getElementById(`panel-${targetId}`);
+                if (targetPanel) {
+                    targetPanel.classList.remove('hidden');
+                }
+
+
+                // Activate target link
+                const targetLink = document.querySelector(`.settings-nav-item[data-target="${targetId}"]`);
+                if (targetLink) {
+                    targetLink.classList.add('active');
+                }
+            }
+
+
+            // Click event for nav links
+            navLinks.forEach(link => {
+                link.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const targetId = e.currentTarget.dataset.target;
+                    showPanel(targetId);
+                    // Update URL hash without jumping
+                    history.pushState(null, null, `#${targetId}`);
+                });
+            });
+
+
+            // Check for hash on page load
+            const currentHash = window.location.hash.substring(1);
+            if (currentHash) {
+                showPanel(currentHash);
+            } else {
+                showPanel('profile'); // Default to profile
+            }
+        });
+
+
+    </script>
+</body>
+</html>

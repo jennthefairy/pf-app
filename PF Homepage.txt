@@ -1,0 +1,266 @@
+﻿<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PageFairy — Launch Your Beauty Brand Risk-Free</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@4.10.1/dist/full.min.css" rel="stylesheet" type="text/css" />
+    
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+
+    <style>
+        /* Custom Ticker Animation */
+        @keyframes ticker-scroll {
+            0% { transform: translateY(0); }
+            15% { transform: translateY(-1.5em); } 
+            30% { transform: translateY(-1.5em); }
+            45% { transform: translateY(-3em); }   
+            60% { transform: translateY(-3em); }
+            75% { transform: translateY(-4.5em); } 
+            90% { transform: translateY(-4.5em); }
+            100% { transform: translateY(0); }
+        }
+        .ticker-container {
+            height: 1.5em;
+            line-height: 1.5em;
+            overflow: hidden;
+            display: inline-block;
+            vertical-align: bottom;
+        }
+        .ticker-item {
+            animation: ticker-scroll 8s infinite ease-in-out;
+        }
+        
+        /* Glassmorphism for cards */
+        .glass-card {
+            background: rgba(30, 41, 59, 0.7);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+    </style>
+</head>
+<body class="bg-slate-950 text-white font-sans antialiased selection:bg-purple-500 selection:text-white">
+
+
+    <header class="sticky top-0 bg-slate-950/80 backdrop-blur-lg z-50 border-b border-slate-800">
+        <div class="container mx-auto px-4">
+            <div class="navbar h-16">
+                <div class="navbar-start">
+                    <a class="flex items-center gap-2 text-xl font-bold tracking-tight hover:text-purple-400 transition">
+                        <i data-lucide="sparkles" class="text-purple-500 w-5 h-5"></i>
+                        PageFairy
+                    </a>
+                </div>
+                <div class="navbar-end gap-3">
+                    <a href="#" class="text-sm font-medium text-slate-300 hover:text-white hidden sm:block">Log In</a>
+                    <a href="#" class="btn btn-sm btn-primary bg-white text-slate-900 hover:bg-slate-200 border-none rounded-full px-5 font-bold">
+                        Start Free
+                    </a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+
+    <section class="relative pt-24 pb-20 overflow-hidden">
+        <div class="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[600px] bg-purple-600/20 rounded-full blur-[120px] -z-10"></div>
+
+
+        <div class="container mx-auto text-center px-4">
+            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-purple-500/30 bg-purple-500/10 text-purple-300 text-xs font-bold uppercase tracking-wide mb-8">
+                <span class="w-2 h-2 rounded-full bg-purple-400 animate-pulse"></span>
+                Built for Beauty Entrepreneurs
+            </div>
+            
+            <h1 class="text-5xl md:text-7xl font-extrabold tracking-tighter leading-tight">
+                Launch your product line with<br/>
+                <span class="ticker-container text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-400">
+                    <span class="ticker-item flex flex-col">
+                        <span>Zero Inventory Risk.</span>
+                        <span>Zero Upfront Cost.</span>
+                        <span>Guaranteed Profit.</span>
+                        <span>Zero Inventory Risk.</span>
+                    </span>
+                </span>
+            </h1>
+            
+            <p class="mt-6 text-lg md:text-xl text-slate-400 max-w-2xl mx-auto leading-relaxed">
+                Turn your influence into a brand. PageFairy is the platform for lash techs and creators to launch private label products using <strong>risk-free pre-order campaigns</strong>.
+            </p>
+            
+            <div class="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4">
+                <a href="#" class="btn btn-lg bg-purple-600 hover:bg-purple-500 text-white border-none rounded-full px-8 shadow-lg shadow-purple-600/25 gap-2">
+                    <i data-lucide="rocket" class="w-5 h-5"></i> Start Your Campaign
+                </a>
+                <a href="#" class="btn btn-lg btn-ghost text-slate-300 hover:text-white rounded-full gap-2">
+                    <i data-lucide="file-text" class="w-5 h-5"></i> View Catalog
+                </a>
+            </div>
+            <p class="text-xs text-slate-500 mt-4 uppercase tracking-widest">No credit card required to start</p>
+        </div>
+    </section>
+
+
+    <section class="py-20 border-t border-slate-800 bg-slate-900/50">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                
+                <div class="glass-card p-8 rounded-2xl hover:bg-slate-800/50 transition duration-300">
+                    <div class="w-12 h-12 rounded-lg bg-slate-800 border border-slate-700 flex items-center justify-center mb-6 text-purple-400">
+                        <i data-lucide="wand-2" class="w-6 h-6"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-white mb-3">AI-Powered Design</h3>
+                    <p class="text-slate-400 leading-relaxed">
+                        Upload your logo and our wizard instantly generates a stunning, high-converting landing page for your campaign. No coding needed.
+                    </p>
+                </div>
+
+
+                <div class="glass-card p-8 rounded-2xl hover:bg-slate-800/50 transition duration-300">
+                    <div class="w-12 h-12 rounded-lg bg-slate-800 border border-slate-700 flex items-center justify-center mb-6 text-purple-400">
+                        <i data-lucide="shield-check" class="w-6 h-6"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-white mb-3">Zero Risk Pre-Orders</h3>
+                    <p class="text-slate-400 leading-relaxed">
+                        We use Stripe Pre-Authorization. Your customers commit to buy, but are <strong>only charged</strong> if you hit your sales goal.
+                    </p>
+                </div>
+
+
+                <div class="glass-card p-8 rounded-2xl hover:bg-slate-800/50 transition duration-300">
+                    <div class="w-12 h-12 rounded-lg bg-slate-800 border border-slate-700 flex items-center justify-center mb-6 text-purple-400">
+                        <i data-lucide="package-check" class="w-6 h-6"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-white mb-3">Hands-Off Fulfillment</h3>
+                    <p class="text-slate-400 leading-relaxed">
+                        Once validated, we invoice the wholesale cost, manufacture your branded product, and dropship directly to your customers.
+                    </p>
+                </div>
+
+
+            </div>
+        </div>
+    </section>
+
+
+    <section class="py-24 relative overflow-hidden">
+        <div class="container mx-auto px-4">
+            <div class="text-center max-w-3xl mx-auto mb-16">
+                <h2 class="text-3xl md:text-5xl font-bold tracking-tight">The "Demand Test" Model</h2>
+                <p class="mt-4 text-lg text-slate-400">
+                    Stop guessing. Validate demand for your beauty brand before you spend a dollar on inventory.
+                </p>
+            </div>
+
+
+            <div class="relative grid gap-12 lg:grid-cols-3">
+                <div class="hidden lg:block absolute top-12 left-16 right-16 h-0.5 bg-gradient-to-r from-slate-800 via-purple-900 to-slate-800"></div>
+
+
+                <div class="relative flex flex-col items-center text-center z-10">
+                    <div class="w-24 h-24 rounded-full bg-slate-900 border-4 border-slate-800 flex items-center justify-center shadow-2xl mb-6 group hover:border-purple-500 transition-colors duration-300">
+                        <span class="text-3xl font-bold text-slate-500 group-hover:text-purple-400">1</span>
+                    </div>
+                    <h3 class="text-xl font-bold text-white">Create Campaign</h3>
+                    <p class="mt-2 text-slate-400 max-w-xs">
+                        Pick a product from our catalog, set your profit margin, and define a unit goal (e.g., "Sell 10 units").
+                    </p>
+                </div>
+
+
+                <div class="relative flex flex-col items-center text-center z-10">
+                    <div class="w-24 h-24 rounded-full bg-slate-900 border-4 border-slate-800 flex items-center justify-center shadow-2xl mb-6 group hover:border-purple-500 transition-colors duration-300">
+                        <span class="text-3xl font-bold text-slate-500 group-hover:text-purple-400">2</span>
+                    </div>
+                    <h3 class="text-xl font-bold text-white">Promote Link</h3>
+                    <p class="mt-2 text-slate-400 max-w-xs">
+                        Share your custom page. Customers place risk-free pre-orders (card holds). No money leaves their account yet.
+                    </p>
+                </div>
+
+
+                <div class="relative flex flex-col items-center text-center z-10">
+                    <div class="w-24 h-24 rounded-full bg-slate-900 border-4 border-slate-800 flex items-center justify-center shadow-2xl mb-6 group hover:border-purple-500 transition-colors duration-300">
+                        <span class="text-3xl font-bold text-slate-500 group-hover:text-purple-400">3</span>
+                    </div>
+                    <h3 class="text-xl font-bold text-white">Profit & Ship</h3>
+                    <p class="mt-2 text-slate-400 max-w-xs">
+                        Goal met? We capture payments, take our wholesale cut, and ship the rest. Goal missed? Everyone is refunded.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <section class="py-20 bg-gradient-to-b from-slate-900 to-slate-950 border-t border-slate-800">
+        <div class="container mx-auto px-4 text-center">
+            <div class="max-w-4xl mx-auto bg-slate-800/30 border border-slate-700 p-12 rounded-3xl relative overflow-hidden">
+                <div class="absolute -top-24 -right-24 w-64 h-64 bg-purple-500/20 rounded-full blur-3xl"></div>
+                
+                <h2 class="text-4xl font-bold text-white mb-6 relative z-10">Ready to build your empire?</h2>
+                <p class="text-xl text-slate-300 mb-8 max-w-2xl mx-auto relative z-10">
+                    Join the waitlist to access our catalog of high-quality white-label beauty products and start selling risk-free.
+                </p>
+                
+                <div class="flex flex-col sm:flex-row gap-4 justify-center relative z-10">
+                    <a href="#" class="btn btn-primary btn-lg bg-purple-600 hover:bg-purple-500 border-none text-white px-10 rounded-full">
+                        Create Free Account <i data-lucide="arrow-right" class="w-5 h-5 ml-1"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <footer class="bg-slate-950 border-t border-slate-800 py-12 text-sm">
+        <div class="container mx-auto px-4 flex flex-col md:flex-row justify-between items-center gap-6">
+            <div class="flex items-center gap-2 font-bold text-lg text-slate-200">
+                <i data-lucide="sparkles" class="text-purple-500 w-5 h-5"></i>
+                PageFairy
+            </div>
+            <p class="text-slate-500">&copy; 2025 PageFairy Inc. Private Label Dropshipping as a Service.</p>
+            <div class="flex gap-6">
+                <a href="#" class="text-slate-400 hover:text-purple-400 transition"><i data-lucide="instagram" class="w-5 h-5"></i></a>
+                <a href="#" class="text-slate-400 hover:text-purple-400 transition"><i data-lucide="twitter" class="w-5 h-5"></i></a>
+                <a href="#" class="text-slate-400 hover:text-purple-400 transition"><i data-lucide="mail" class="w-5 h-5"></i></a>
+            </div>
+        </div>
+    </footer>
+
+
+    <script>
+        // Initialize Lucide Icons
+        lucide.createIcons();
+
+
+        // Console Proxy (CodeSpaces utility, preserved from your original file)
+        window.console = new Proxy(console, {
+            get(target, prop) {
+                if (['log', 'warn', 'error'].includes(prop)) {
+                    return new Proxy(target[prop], {
+                        apply(fn, thisArg, args) {
+                            fn.apply(thisArg, args);
+                            window.parent.postMessage({ action: 'console', 
+                                type: prop, 
+                                args: args.map((arg) => {
+                                    try {
+                                        return JSON.stringify(arg).replace(/^["']|["']$/g, '');
+                                    } catch (e) {
+                                        return arg;
+                                    }
+                                }) 
+                            }, '*');
+                        }
+                    });
+                }
+                return target[prop];
+            }
+        });
+    </script>
+</body>
+</html>

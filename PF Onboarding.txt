@@ -1,0 +1,563 @@
+﻿<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PageFairy Onboarding</title>
+
+
+    <!-- Tailwind & DaisyUI -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@4.10.1/dist/full.min.css" rel="stylesheet" type="text/css" />
+    
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+
+    <style>
+        /* Custom styles for the app */
+        .glass-card {
+            background: rgba(30, 41, 59, 0.7);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+
+        /* Custom file input */
+        .file-dropzone {
+            border: 2px dashed #4a0e9a; /* purple-800 */
+            transition: all 0.3s ease;
+        }
+        .file-dropzone:hover {
+            border-color: #7e22ce; /* purple-600 */
+            background-color: rgba(126, 34, 206, 0.05);
+        }
+        
+        /* Font selection cards */
+        .font-card {
+            border: 2px solid #374151; /* gray-700 */
+            transition: all 0.2s ease;
+            transform: scale(0.95);
+            opacity: 0.7;
+        }
+        .font-card.selected {
+            border-color: #9333ea; /* purple-600 */
+            background-color: rgba(147, 51, 234, 0.1);
+            box-shadow: 0 0 15px rgba(147, 51, 234, 0.2);
+            transform: scale(1);
+            opacity: 1;
+        }
+        
+        /* CSS Scroll Snap */
+        .font-slider-container {
+            scroll-snap-type: x mandatory;
+            -webkit-overflow-scrolling: touch;
+        }
+        .font-slider-item {
+            scroll-snap-align: center;
+        }
+
+
+        /* Hide color picker default icon */
+        input[type="color"]::-webkit-color-swatch-wrapper {
+            padding: 0;
+        }
+        input[type="color"]::-webkit-color-swatch {
+            border: none;
+            border-radius: 0.5rem;
+        }
+
+
+        /* Hide scrollbar */
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    </style>
+</head>
+<body class="bg-slate-950 text-white font-sans antialiased selection:bg-purple-500 selection:text-white">
+
+
+    <!-- Onboarding Container -->
+    <div class="flex flex-col items-center justify-center min-h-screen p-4 relative overflow-hidden">
+        
+        <!-- Ambient Background Glow -->
+        <div class="absolute top-0 left-0 w-96 h-96 bg-purple-600/20 rounded-full blur-[120px] -z-10"></div>
+        <div class="absolute bottom-0 right-0 w-96 h-96 bg-pink-500/10 rounded-full blur-[100px] -z-10"></div>
+
+
+        <div class="w-full max-w-lg">
+            <!-- Logo -->
+            <div class="flex justify-center items-center gap-2 text-2xl font-bold tracking-tight text-white mb-6">
+                <i data-lucide="sparkles" class="text-purple-500 w-6 h-6"></i>
+                PageFairy
+            </div>
+
+
+            <!-- Wizard Card -->
+            <div class="glass-card p-8 md:p-12 rounded-2xl shadow-2xl shadow-black/30">
+                
+                <!-- Progress Bar -->
+                <div class="text-center mb-8">
+                    <ul class="steps steps-horizontal w-full text-sm" id="progress-steps">
+                        <li class="step step-primary" data-step-label="1">Profile</li>
+                        <li class="step" data-step-label="2">Style</li>
+                        <li class="step" data-step-label="3">Payments</li>
+                    </ul>
+                </div>
+
+
+                <form id="onboarding-form">
+                    
+                    <!-- ===== Step 1: Profile ===== -->
+                    <section data-step="1" class="space-y-6">
+                        <h1 class="text-3xl font-bold text-center mb-2">Welcome! Let's set up your brand.</h1>
+                        <p class="text-center text-slate-400 mb-8">This will power your public page and all your campaigns.</p>
+                        
+                        <!-- Brand Name -->
+                        <div>
+                            <label for="brand_name" class="block text-sm font-medium text-slate-300 mb-2">
+                                Brand Name
+                            </label>
+                            <input 
+                                type="text" 
+                                id="brand_name" 
+                                name="brand_name" 
+                                placeholder="e.g., Lashy Bloom" 
+                                required
+                                class="input input-bordered input-lg w-full rounded-lg bg-slate-800 border-slate-700 focus:border-purple-500 focus:ring-purple-500 focus:ring-1"
+                            />
+                        </div>
+
+
+                        <!-- Username -->
+                        <div>
+                            <label for="username" class="block text-sm font-medium text-slate-300 mb-2">
+                                Claim Your URL
+                            </label>
+                            <div class="join w-full">
+                                <span class="join-item inline-flex items-center px-4 rounded-l-lg bg-slate-800 border border-slate-700 text-slate-400 text-lg">
+                                    pagefairy.me/
+                                </span>
+                                <input 
+                                    type="text" 
+                                    id="username" 
+                                    name="username" 
+                                    placeholder="yourbrand" 
+                                    required
+                                    class="join-item input input-lg w-full rounded-r-lg bg-slate-800 border-slate-700 focus:border-purple-500 focus:ring-purple-500 focus:ring-1"
+                                />
+                            </div>
+                            <p id="username-status" class="text-xs text-slate-500 mt-2 h-4"></p>
+                        </div>
+
+
+                        <!-- Logo / Profile Picture -->
+                        <div>
+                            <label class="block text-sm font-medium text-slate-300 mb-2">
+                                Brand Logo or Profile Picture
+                            </label>
+                            <div class="file-dropzone w-full p-6 rounded-lg text-center cursor-pointer flex flex-col items-center justify-center bg-slate-800/30">
+                                <i data-lucide="upload-cloud" class="w-12 h-12 text-purple-600 mb-3"></i>
+                                <span class="font-semibold text-slate-300">Click to upload or drag & drop</span>
+                                <span class="text-sm text-slate-500">PNG, JPG, or GIF (1:1 recommended)</span>
+                                <input type="file" class="hidden" id="logo_upload" accept="image/*" />
+                            </div>
+                        </div>
+                    </section>
+
+
+                    <!-- ===== Step 2: Style ===== -->
+                    <section data-step="2" class="space-y-6 hidden">
+                        <h1 class="text-3xl font-bold text-center mb-2">Set Your Brand Style</h1>
+                        <p class="text-center text-slate-400 mb-8">This color and font will be used on your public page and campaigns.</p>
+                        
+                        <!-- Primary Color -->
+                        <div>
+                            <label for="brand_color" class="block text-sm font-medium text-slate-300 mb-2">
+                                Primary Brand Color
+                            </label>
+                            <div class="flex items-center gap-4">
+                                <input 
+                                    type="color" 
+                                    id="brand_color_picker"
+                                    name="brand_color" 
+                                    value="#9333ea"
+                                    class="w-16 h-16 p-0 border-none rounded-lg cursor-pointer bg-slate-800"
+                                />
+                                <input 
+                                    type="text" 
+                                    id="brand_color_hex"
+                                    value="#9333EA"
+                                    class="input input-bordered input-lg w-full rounded-lg bg-slate-800 border-slate-700 focus:border-purple-500 focus:ring-purple-500 focus:ring-1"
+                                    placeholder="#FFFFFF"
+                                />
+                            </div>
+                        </div>
+
+
+                        <!-- Brand Tone -->
+                        <div>
+                            <label for="brand_tone" class="block text-sm font-medium text-slate-300 mb-2">
+                                Brand Tone
+                            </label>
+                            <select id="brand_tone" name="brand_tone" class="select select-lg select-bordered w-full rounded-lg bg-slate-800 border-slate-700 focus:border-purple-500 focus:ring-purple-500 focus:ring-1">
+                                <option value="playful">Playful</option>
+                                <option value="professional" selected>Professional</option>
+                                <option value="elegant">Elegant</option>
+                                <option value="bold">Bold</option>
+                                <option value="minimal">Minimal</option>
+                            </select>
+                        </div>
+                        
+                        <!-- Font Style Slider -->
+                        <div>
+                            <label class="block text-sm font-medium text-slate-300 mb-2">
+                                Font Style Preference
+                            </label>
+                            
+                            <div id="font-slider" class="font-slider-container flex overflow-x-auto no-scrollbar scroll-smooth space-x-4">
+                                <!-- Card 1: Modern -->
+                                <div class="font-slider-item w-full flex-shrink-0">
+                                    <div class="font-card p-6 rounded-lg selected" data-font="modern">
+                                        <span class="text-2xl font-sans font-bold">Modern</span>
+                                        <p class="font-sans text-slate-400">Aa Bb Cc Dd Ee</p>
+                                    </div>
+                                </div>
+                                <!-- Card 2: Elegant -->
+                                <div class="font-slider-item w-full flex-shrink-0">
+                                    <div class="font-card p-6 rounded-lg" data-font="elegant">
+                                        <span class="text-2xl" style="font-family: 'Times New Roman', Times, serif; font-weight: 700;">Elegant</span>
+                                        <p class="text-slate-400" style="font-family: 'Times New Roman', Times, serif;">Aa Bb Cc Dd Ee</p>
+                                    </div>
+                                </div>
+                                <!-- Card 3: Bold -->
+                                <div class="font-slider-item w-full flex-shrink-0">
+                                    <div class="font-card p-6 rounded-lg" data-font="bold">
+                                        <span class="text-2xl font-sans font-extrabold uppercase">Bold</span>
+                                        <p class="font-sans text-slate-400 font-extrabold uppercase">Aa Bb Cc Dd Ee</p>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Dots -->
+                            <div class="flex justify-center w-full pt-4 gap-2" id="font-dots">
+                                <span data-slide-index="0" class="w-3 h-3 rounded-full bg-purple-600 cursor-pointer transition-all"></span>
+                                <span data-slide-index="1" class="w-3 h-3 rounded-full bg-slate-700 cursor-pointer transition-all"></span>
+                                <span data-slide-index="2" class="w-3 h-3 rounded-full bg-slate-700 cursor-pointer transition-all"></span>
+                            </div>
+
+
+                            <input type="hidden" name="font_style" id="font_style" value="modern">
+                        </div>
+                    </section>
+
+
+                    <!-- ===== Step 3: Payments ===== -->
+                    <section data-step="3" class="space-y-6 hidden">
+                        <h1 class="text-3xl font-bold text-center mb-2">Connect Your Payouts</h1>
+                        <p class="text-center text-slate-400 mb-8">This is the final and most important step!</p>
+                        
+                        <div class="text-center p-6 bg-slate-800/50 border border-slate-700 rounded-lg">
+                            <i data-lucide="alert-triangle" class="w-12 h-12 text-yellow-400 mx-auto mb-4"></i>
+                            <p class="text-slate-300 leading-relaxed">
+                                PageFairy uses <strong>Stripe Connect</strong> to handle payments.
+                                <br/><br/>
+                                You <strong>must connect a Stripe account</strong> to receive payments from your pre-order campaigns. This allows us to use risk-free authorizations.
+                            </p>
+                        </div>
+                        
+                        <div class="bg-slate-800 p-6 rounded-lg flex items-center gap-4">
+                            <img src="https://placehold.co/100x100/1e293b/FFF?text=Stripe" alt="Stripe Logo" class="w-16 h-16 rounded-lg"/>
+                            <div>
+                                <h3 class="font-bold text-lg text-white">Stripe Connected Account</h3>
+                                <p class="text-sm text-slate-400">Securely connect your account to accept payments and manage payouts.</p>
+                            </div>
+                        </div>
+                    </section>
+                    
+                    <!-- ===== Action Buttons (Responsive Fix) ===== -->
+                    <div class="flex items-center gap-4 pt-6">
+                        <button 
+                            type="button" 
+                            id="back-btn"
+                            class="btn btn-lg btn-ghost rounded-full text-slate-400 hidden flex-shrink-0"
+                        >
+                            <i data-lucide="arrow-left" class="w-5 h-5"></i>
+                            Back
+                        </button>
+<button
+  type="button"
+  id="next-btn"
+  class="btn btn-primary btn-lg w-full inline-flex items-center justify-center gap-2
+         rounded-full bg-purple-600 hover:bg-purple-500 border-none
+         text-white text-base font-bold shadow-lg shadow-purple-600/25"
+>
+  Continue to Styling
+  <svg xmlns="http://www.w3.org/2000/svg"
+       viewBox="0 0 24 24"
+       fill="none"
+       stroke="currentColor"
+       stroke-width="2"
+       stroke-linecap="round"
+       stroke-linejoin="round"
+       class="w-5 h-5">
+    <path d="M5 12h14" />
+    <path d="m12 5 7 7-7 7" />
+  </svg>
+</button>
+
+
+                    </div>
+
+
+                </form>
+
+
+            </div>
+            
+            <div class="text-center mt-6">
+                <a href="app-dashboard-empty.html" class="text-sm text-slate-500 hover:text-white hover:underline transition">
+                    I'll do this later
+                </a>
+            </div>
+        </div>
+    </div>
+
+
+    <script>
+        // Initialize Lucide Icons
+        lucide.createIcons();
+
+
+        // --- Wizard State ---
+        let currentStep = 1;
+        const totalSteps = 3;
+        
+        const form = document.getElementById('onboarding-form');
+        const nextBtn = document.getElementById('next-btn');
+        const backBtn = document.getElementById('back-btn');
+        const progressSteps = document.querySelectorAll('#progress-steps .step');
+
+
+        const stepSections = {
+            1: document.querySelector('section[data-step="1"]'),
+            2: document.querySelector('section[data-step="2"]'),
+            3: document.querySelector('section[data-step="3"]')
+        };
+
+
+        const buttonText = {
+            1: 'Continue to Styling',
+            2: 'Continue to Payments',
+            3: 'Finish & Connect Stripe'
+        };
+
+
+        // --- Wizard Functions ---
+        
+        function showStep(stepNumber) {
+            currentStep = stepNumber;
+            
+            // Hide all sections
+            Object.values(stepSections).forEach(section => section.classList.add('hidden'));
+            
+            // Show current section
+            stepSections[currentStep].classList.remove('hidden');
+            
+            // Update progress bar
+            progressSteps.forEach((step, index) => {
+                if (index < currentStep) {
+                    step.classList.add('step-primary');
+                } else {
+                    step.classList.remove('step-primary');
+                }
+            });
+            
+            // Update button text
+            nextBtn.innerHTML = `${buttonText[currentStep]} <i data-lucide="arrow-right" class="w-5 h-5"></i>`;
+            
+            // Handle Stripe button case
+            if (currentStep === 3) {
+                nextBtn.innerHTML = `Finish & Connect Stripe <i data-lucide="lock" class="w-5 h-5"></i>`;
+            }
+
+
+            // Update icon
+            lucide.createIcons();
+            
+            // Show/hide back button
+            backBtn.classList.toggle('hidden', currentStep === 1);
+        }
+
+
+        function validateStep(stepNumber) {
+            if (stepNumber === 1) {
+                const brandName = document.getElementById('brand_name').value;
+                const username = document.getElementById('username').value;
+                
+                if (!brandName || !username) {
+                    alert('Please fill out your Brand Name and Username.');
+                    return false;
+                }
+                if (username.length < 3) {
+                    alert('Username must be at least 3 characters.');
+                    return false;
+                }
+            }
+            // Step 2 has defaults, so no hard validation needed
+            return true;
+        }
+
+
+        function goToNextStep() {
+            if (!validateStep(currentStep)) {
+                return;
+            }
+
+
+            if (currentStep < totalSteps) {
+                showStep(currentStep + 1);
+            } else {
+                // Final step action
+                console.log('Onboarding complete. Redirecting to Stripe...');
+                nextBtn.innerHTML = 'Redirecting... <span class="loading loading-spinner"></span>';
+                
+                // --- !! NOTE: THIS MUST BE A FULL PAGE REDIRECT !! ---
+                // In a real app, this MUST be a full page redirect to the 
+                // Stripe Connect OAuth URL, not a fetch().
+                // For the demo, we'll just go to the dashboard.
+                setTimeout(() => {
+                    window.location.href = "app-dashboard-empty.html"; // Simulate redirect to dashboard
+                }, 1500);
+            }
+        }
+
+
+        function goToPrevStep() {
+            if (currentStep > 1) {
+                showStep(currentStep - 1);
+            }
+        }
+
+
+        // --- Event Listeners ---
+        
+        nextBtn.addEventListener('click', goToNextStep);
+        backBtn.addEventListener('click', goToPrevStep);
+
+
+        // --- Step 1: Username Check ---
+        const usernameInput = document.getElementById('username');
+        const usernameStatus = document.getElementById('username-status');
+        let typingTimer;
+
+
+        usernameInput.addEventListener('keyup', () => {
+            clearTimeout(typingTimer);
+            usernameStatus.textContent = 'Checking availability...';
+            usernameStatus.classList.remove('text-green-400', 'text-red-400');
+            usernameStatus.classList.add('text-slate-500');
+
+
+            typingTimer = setTimeout(() => {
+                const username = usernameInput.value;
+                if (username.length < 3) {
+                    usernameStatus.textContent = 'Must be at least 3 characters.';
+                    usernameStatus.classList.add('text-red-400');
+                } else if (username === 'admin' || username === 'test') {
+                    usernameStatus.textContent = `Oof! "${username}" is already taken.`;
+                    usernameStatus.classList.add('text-red-400');
+                } else {
+                    usernameStatus.textContent = `Sweet! pagefairy.me/${username} is available!`;
+                    usernameStatus.classList.add('text-green-400');
+                }
+            }, 800);
+        });
+
+
+        // --- Step 1: File Upload ---
+        const dropzone = document.querySelector('.file-dropzone');
+        const fileInput = document.getElementById('logo_upload');
+        
+        dropzone.addEventListener('click', () => fileInput.click());
+
+
+        fileInput.addEventListener('change', () => {
+            if (fileInput.files && fileInput.files[0]) {
+                const fileName = fileInput.files[0].name;
+                dropzone.querySelector('span.font-semibold').textContent = fileName;
+                dropzone.querySelector('span.text-sm').textContent = 'Click to change file';
+                dropzone.querySelector('i').setAttribute('data-lucide', 'file-check-2');
+                lucide.createIcons();
+            }
+        });
+
+
+        // --- Step 2: Color Picker ---
+        const colorPicker = document.getElementById('brand_color_picker');
+        const colorHex = document.getElementById('brand_color_hex');
+
+
+        colorPicker.addEventListener('input', (e) => {
+            colorHex.value = e.target.value.toUpperCase();
+        });
+
+
+        colorHex.addEventListener('input', (e) => {
+            // Basic hex validation
+            if (/^#[0-9A-F]{6}$/i.test(e.target.value) || /^#[0-9A-F]{3}$/i.test(e.target.value)) {
+                colorPicker.value = e.target.value;
+            }
+        });
+
+
+        // --- Step 2: Font Slider ---
+        const fontSlider = document.getElementById('font-slider');
+        const fontDots = document.querySelectorAll('#font-dots span');
+        const fontCards = document.querySelectorAll('.font-card');
+        const fontInput = document.getElementById('font_style');
+        
+        let scrollTimer;
+        fontSlider.addEventListener('scroll', () => {
+            clearTimeout(scrollTimer);
+            scrollTimer = setTimeout(() => {
+                const scrollLeft = fontSlider.scrollLeft;
+                const slideWidth = fontSlider.clientWidth;
+                const currentIndex = Math.round(scrollLeft / slideWidth);
+
+
+                // Update dots
+                fontDots.forEach((dot, index) => {
+                    dot.classList.toggle('bg-purple-600', index === currentIndex);
+                    dot.classList.toggle('bg-slate-700', index !== currentIndex);
+                });
+
+
+                // Update selected card
+                fontCards.forEach((card, index) => {
+                    card.classList.toggle('selected', index === currentIndex);
+                    if (index === currentIndex) {
+                        fontInput.value = card.dataset.font;
+                    }
+                });
+            }, 100); // Debounce scroll event
+        });
+        
+        // Add click to dots
+        fontDots.forEach(dot => {
+            dot.addEventListener('click', () => {
+                const slideIndex = parseInt(dot.dataset.slideIndex, 10);
+                const slideWidth = fontSlider.clientWidth;
+                fontSlider.scrollTo({
+                    left: slideIndex * slideWidth,
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+
+        // --- Initial Call ---
+        showStep(1);
+    </script>
+</body>
+</html>
