@@ -14,7 +14,7 @@ export const onRequest: PagesFunction = async (ctx) => {
   }
 
   try {
-    const auth = createAuth(ctx.env as any);
+    const auth = await createAuth(ctx.env as any);
     // Better-auth provides a single handler that routes internally
     return await auth.handler(ctx.request);
   } catch (err) {

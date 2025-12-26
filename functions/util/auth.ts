@@ -1,9 +1,16 @@
-import { betterAuth } from "better-auth";
-import { drizzleAdapter } from "better-auth/adapters/drizzle";
 import { getDb } from "../db/client";
 import * as schema from "../db/schema";
 import { eq } from "drizzle-orm";
-export function createAuth(env: any) {
+import { ensureAsyncLocalStorage } from "./async-local-storage";
+
+export async function createAuth(env: any) {
+  ensureAsyncLocalStorage();
+
+  const [{ betterAuth }, { drizzleAdapter }] = await Promise.all([
+    import("better-auth"),
+    import("better-auth/adapters/drizzle"),
+  ]);
+
   const db = getDb(env);
   return betterAuth({
     secret: env.BETTER_AUTH_SECRET,
@@ -116,7 +123,7 @@ export async function requireUser(ctx: any) {
   // --- END BYPASS ---
 
   // Real auth: rely on Better Auth session cookies.
-  const auth = createAuth(ctx.env as any);
+  const auth = await createAuth(ctx.env as any);
   const session = await auth.api.getSession({
     headers: ctx.request.headers,
   });
