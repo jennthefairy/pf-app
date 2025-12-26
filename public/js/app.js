@@ -4,7 +4,9 @@
  */
 
 // Base API URL
-const API_BASE = '/functions/api';
+// Cloudflare Pages Functions are served under `/api/*`.
+// Allow overriding via `window.API_BASE` for custom deployments.
+const API_BASE = (typeof window !== 'undefined' && window.API_BASE ? String(window.API_BASE) : '/api').replace(/\/$/, '');
 
 /**
  * Helper function to make API requests
@@ -15,20 +17,38 @@ const API_BASE = '/functions/api';
 async function apiRequest(endpoint, options = {}) {
   try {
     const response = await fetch(`${API_BASE}${endpoint}`, {
+      credentials: 'include',
+      ...options,
       headers: {
         'Content-Type': 'application/json',
-        ...options.headers
-      },
-      ...options
+        ...(options.headers || {})
+      }
     });
 
-    const data = await response.json();
+    const contentType = response.headers.get('content-type') || '';
+    let data = null;
+    let text = '';
 
-    if (!response.ok) {
-      throw new Error(data.error || `Request failed with status ${response.status}`);
+    if (contentType.includes('application/json')) {
+      data = await response.json();
+    } else {
+      text = await response.text();
+      try {
+        data = text ? JSON.parse(text) : null;
+      } catch {
+        data = null;
+      }
     }
 
-    return data;
+    if (!response.ok) {
+      const message = (data && (data.error || data.message)) || text || `Request failed with status ${response.status}`;
+      const err = new Error(message);
+      err.status = response.status;
+      err.data = data;
+      throw err;
+    }
+
+    return data ?? (text ? { ok: true, text } : { ok: true });
   } catch (error) {
     console.error('API Request Error:', error);
     throw error;
@@ -45,7 +65,7 @@ const Auth = {
    * @returns {Promise<object>} Response data
    */
   async signup(userData) {
-    return apiRequest('/auth/signup', {
+    return apiRequest('/auth/sign-up/email', {
       method: 'POST',
       body: JSON.stringify(userData)
     });
@@ -57,7 +77,7 @@ const Auth = {
    * @returns {Promise<object>} Response data
    */
   async login(credentials) {
-    return apiRequest('/auth/login', {
+    return apiRequest('/auth/sign-in/email', {
       method: 'POST',
       body: JSON.stringify(credentials)
     });
@@ -68,7 +88,7 @@ const Auth = {
    * @returns {Promise<object>} Response data
    */
   async logout() {
-    return apiRequest('/auth/logout', {
+    return apiRequest('/auth/sign-out', {
       method: 'POST'
     });
   },
@@ -78,10 +98,10 @@ const Auth = {
    * @param {string} email - User email
    * @returns {Promise<object>} Response data
    */
-  async forgotPassword(email) {
-    return apiRequest('/auth/forgot-password', {
+  async forgotPassword(email, redirectTo) {
+    return apiRequest('/auth/request-password-reset', {
       method: 'POST',
-      body: JSON.stringify({ email })
+      body: JSON.stringify(redirectTo ? { email, redirectTo } : { email })
     });
   },
 
@@ -94,7 +114,7 @@ const Auth = {
   async resetPassword(token, newPassword) {
     return apiRequest('/auth/reset-password', {
       method: 'POST',
-      body: JSON.stringify({ token, password: newPassword })
+      body: JSON.stringify({ token, newPassword })
     });
   }
 };

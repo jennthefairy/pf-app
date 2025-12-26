@@ -19,7 +19,7 @@ export const onRequestPost: PagesFunction = async (ctx) => {
 
     // Build return URL
     const baseUrl = new URL(ctx.request.url).origin;
-    const returnUrl = `${baseUrl}/app/settings.html`;
+    const returnUrl = `${baseUrl}/settings.html`;
 
     // Create Stripe customer portal session
     const params = new URLSearchParams({

@@ -1,17 +1,16 @@
-import { getDb } from "../../../db/client";
-import * as schema from "../../../db/schema";
-import { requireAdminUser } from "../../../util/auth";
+import { getDb } from "../../../../db/client";
+import * as schema from "../../../../db/schema";
+import { requireAdminUser } from "../../../../util/auth";
 import { eq } from "drizzle-orm";
-import { json, bad } from "../../../util/responses";
+import { json, bad } from "../../../../util/responses";
 
 /**
- * POST /api/admin/[id]/update-status
- * Compatibility alias for updating an order's fulfillment status.
- * Prefer: POST /api/admin/orders/[id]/update-status
+ * POST /api/admin/orders/[id]/update-status
+ * Updates an order's fulfillment status. Admin only.
  */
 export const onRequestPost: PagesFunction = async (ctx) => {
   try {
-    await requireAdminUser(ctx); // Throws error if not admin
+    await requireAdminUser(ctx);
 
     const orderId = Number(ctx.params.id);
     if (Number.isNaN(orderId)) {
@@ -34,10 +33,11 @@ export const onRequestPost: PagesFunction = async (ctx) => {
       return bad("Order not found", 404);
     }
 
-    return json(updatedOrder, { status: 200, headers: { "X-Deprecated-Route": "true" } });
-
+    return json(updatedOrder, { status: 200 });
   } catch (err: any) {
     const msg = err?.message || String(err);
-    return bad(msg, msg.includes("permission") ? 403 : 401);
+    if (msg.includes("permission")) return bad(msg, 403);
+    if (msg.includes("logged in")) return bad(msg, 401);
+    return bad(msg, 400);
   }
 };

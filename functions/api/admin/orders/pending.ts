@@ -2,6 +2,7 @@ import { getDb } from "../../../db/client";
 import * as schema from "../../../db/schema";
 import { requireAdminUser } from "../../../util/auth";
 import { eq } from "drizzle-orm";
+import { json, bad } from "../../../util/responses";
 
 /**
  * GET /api/admin/orders/pending
@@ -16,12 +17,9 @@ export const onRequestGet: PagesFunction = async (ctx) => {
       where: eq(schema.orders.fulfillmentStatus, "PENDING"),
     });
 
-    return new Response(JSON.stringify({ orders }), {
-      status: 200,
-      headers: { "Content-Type": "application/json" },
-    });
+    return json({ orders }, { status: 200 });
 
   } catch (err: any) {
-    return new Response(err.message, { status: err.message.includes("permission") ? 403 : 401 });
+    return bad(err.message, err.message.includes("permission") ? 403 : 401);
   }
 };

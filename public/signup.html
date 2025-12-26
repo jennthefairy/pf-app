@@ -17,21 +17,23 @@
            </div>
            <div class="card w-full bg-base-100 shadow-xl border">
                <div class="card-body">
-                   <div class="form-control w-full">
+                   <form id="signup-form">
+                     <div class="form-control w-full">
                        <label class="label"><span class="label-text text-slate-700">Full Name</span></label>
-                       <input type="text" placeholder="Your Name" class="input input-bordered w-full" />
-                   </div>
-                    <div class="form-control w-full">
+                       <input id="signup-name" type="text" placeholder="Your Name" class="input input-bordered w-full" required />
+                     </div>
+                     <div class="form-control w-full">
                        <label class="label"><span class="label-text text-slate-700">Email Address</span></label>
-                       <input type="email" placeholder="you@example.com" class="input input-bordered w-full" />
-                   </div>
-                   <div class="form-control w-full">
+                       <input id="signup-email" type="email" placeholder="you@example.com" class="input input-bordered w-full" required />
+                     </div>
+                     <div class="form-control w-full">
                        <label class="label"><span class="label-text text-slate-700">Password</span></label>
-                       <input type="password" placeholder="••••••••" class="input input-bordered w-full" />
-                   </div>
-                   <div class="card-actions justify-center mt-4">
-                     <button id="signup-submit" class="btn  w-full text-white" style="background-color: #ff7096;">Create Account</button>
-                   </div>
+                       <input id="signup-password" type="password" placeholder="••••••••" class="input input-bordered w-full" required />
+                     </div>
+                     <div class="card-actions justify-center mt-4">
+                       <button type="submit" class="btn w-full text-white" style="background-color: #ff7096;">Create Account</button>
+                     </div>
+                   </form>
                </div>
            </div>
            <div class="text-center mt-4">
@@ -63,12 +65,23 @@ window.console = new Proxy(console, {
  }
 });
 </script>
- <script>
-   document.getElementById('signup-submit').addEventListener('click', (e) => {
-     e.preventDefault();
-     // In a real app, call signup API then redirect on success
-     window.location.href = 'onboarding.html';
-   });
- </script>
+
+<script src="js/app.js"></script>
+<script>
+  document.getElementById('signup-form').addEventListener('submit', async (e) => {
+    e.preventDefault();
+
+    const name = document.getElementById('signup-name').value.trim();
+    const email = document.getElementById('signup-email').value.trim();
+    const password = document.getElementById('signup-password').value;
+
+    try {
+      await window.PageFairyAPI.Auth.signup({ name, email, password });
+      window.location.href = 'onboarding.html';
+    } catch (err) {
+      alert('Signup failed: ' + (err?.message || err));
+    }
+  });
+</script>
 </body>
 </html>

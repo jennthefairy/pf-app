@@ -19,17 +19,19 @@
            </div>
            <div class="card w-full bg-base-100 shadow-xl border">
                <div class="card-body">
-                    <div class="form-control w-full">
+                   <form id="login-form">
+                     <div class="form-control w-full">
                        <label class="label"><span class="label-text">Email Address</span></label>
-                       <input type="email" placeholder="you@example.com" class="input input-bordered w-full" />
-                   </div>
-                   <div class="form-control w-full">
+                       <input id="login-email" type="email" placeholder="you@example.com" class="input input-bordered w-full" required />
+                     </div>
+                     <div class="form-control w-full">
                        <label class="label"><span class="label-text">Password</span></label>
-                       <input type="password" placeholder="••••••••" class="input input-bordered w-full" />
-                   </div>
-                   <div class="card-actions justify-center mt-4">
-                     <button class="btn  w-full text-white" style="background-color: #ff7096;">Log In</button>
-                   </div>
+                       <input id="login-password" type="password" placeholder="••••••••" class="input input-bordered w-full" required />
+                     </div>
+                     <div class="card-actions justify-center mt-4">
+                       <button type="submit" class="btn w-full text-white" style="background-color: #ff7096;">Log In</button>
+                     </div>
+                   </form>
                </div>
            </div>
             <div class="text-center mt-4">
@@ -60,5 +62,24 @@ window.console = new Proxy(console, {
    return target[prop];
  }
 });
-</script></body>
+</script>
+
+<script src="js/app.js"></script>
+<script>
+  document.getElementById('login-form').addEventListener('submit', async (e) => {
+    e.preventDefault();
+
+    const email = document.getElementById('login-email').value.trim();
+    const password = document.getElementById('login-password').value;
+
+    try {
+      await window.PageFairyAPI.Auth.login({ email, password });
+      window.location.href = 'dashboard.html';
+    } catch (err) {
+      alert('Login failed: ' + (err?.message || err));
+    }
+  });
+</script>
+
+</body>
 </html>

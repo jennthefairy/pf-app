@@ -1,6 +1,7 @@
-name = "pagefairy-mvp"
+name = "pf-app"
 compatibility_date = "2024-09-23"
 node_compat = true
+compatibility_flags = ["nodejs_compat"]
 
 [env.production]
 name = "pagefairy-mvp-production"
