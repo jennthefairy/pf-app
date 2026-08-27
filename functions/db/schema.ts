@@ -103,7 +103,7 @@ export const campaigns = pgTable("campaigns", {
 
 export const credits = pgTable("credits", {
   id: serial("id").primaryKey(),
-  userId: text("user_id").notNull().references(() => user.id),
+  userId: text("user_id").notNull().references(() => users.id),
   balance: integer("balance").notNull().default(0),
   updatedAt: timestamp("updated_at", { withTimezone: true }).defaultNow(),
 });
