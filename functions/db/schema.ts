@@ -12,7 +12,7 @@ export const users = pgTable("users", {
   image: text("image"),
   emailVerified: boolean("email_verified").default(false).notNull(),
   isAdmin: boolean("is_admin").default(false).notNull(),
-  createdAt: timestamp("created_at", { withTimezone: true }).defaultNow(),
+  createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
   updatedAt: timestamp("updated_at", { withTimezone: true }).defaultNow().notNull(),
   
 });
@@ -29,9 +29,11 @@ export const sessions = pgTable("sessions", {
   expiresAt: timestamp("expires_at", { withTimezone: true }).notNull(),
   ipAddress: text("ip_address"),
   userAgent: text("user_agent"),
-  createdAt: timestamp("created_at", { withTimezone: true }).defaultNow(),
+  createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
   updatedAt: timestamp("updated_at", { withTimezone: true }).defaultNow().notNull(),
-  activeAt: timestamp("active_at").notNull(),
+  // Better Auth does not populate this custom column, so it must have a
+  // default; otherwise session inserts fail against the NOT NULL constraint.
+  activeAt: timestamp("active_at").defaultNow().notNull(),
 
 });
 
@@ -57,7 +59,7 @@ export const accounts = pgTable("accounts", {
   // Credential provider
   password: text("password"),
 
-  createdAt: timestamp("created_at", { withTimezone: true }).defaultNow(),
+  createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
   updatedAt: timestamp("updated_at", { withTimezone: true }).defaultNow().notNull(),
 });
 
@@ -70,7 +72,7 @@ export const verifications = pgTable("verifications", {
   identifier: text("identifier").notNull(),
   value: text("value").notNull(),
   expiresAt: timestamp("expires_at", { withTimezone: true }).notNull(),
-  createdAt: timestamp("created_at", { withTimezone: true }).defaultNow(),
+  createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
   updatedAt: timestamp("updated_at", { withTimezone: true }).defaultNow().notNull(),
 });
 
@@ -83,7 +85,7 @@ export const passwordResetTokens = pgTable("password_reset_tokens", {
   userId: integer("user_id").notNull().references(() => users.id, { onDelete: "cascade" }),
   token: text("token").notNull().unique(),
   expiresAt: timestamp("expires_at", { withTimezone: true }).notNull(),
-  createdAt: timestamp("created_at", { withTimezone: true }).defaultNow(),
+  createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
 });
 
 /**
@@ -98,14 +100,14 @@ export const campaigns = pgTable("campaigns", {
   goal: integer("goal").notNull(),     // Goal in cents
   currentAmountRaised: integer("current_amount_raised").default(0).notNull(),
   userId: integer("user_id").notNull().references(() => users.id, { onDelete: "cascade" }),
-  createdAt: timestamp("created_at", { withTimezone: true }).defaultNow(),
+  createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
 });
 
 export const credits = pgTable("credits", {
   id: serial("id").primaryKey(),
-  userId: text("user_id").notNull().references(() => user.id),
+  userId: integer("user_id").notNull().references(() => users.id, { onDelete: "cascade" }),
   balance: integer("balance").notNull().default(0),
-  updatedAt: timestamp("updated_at", { withTimezone: true }).defaultNow(),
+  updatedAt: timestamp("updated_at", { withTimezone: true }).defaultNow().notNull(),
 });
 
 /**
@@ -133,7 +135,7 @@ export const orders = pgTable("orders", {
   paymentStatus: varchar("payment_status", { length: 50 }).default("completed").notNull(),
   fulfillmentStatus: varchar("fulfillment_status", { length: 50 }).default("PENDING").notNull(),
 
-  createdAt: timestamp("created_at", { withTimezone: true }).defaultNow(),
+  createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
 });
 
 // Relations must be declared after all tables to avoid forward-reference issues.
@@ -143,6 +145,7 @@ export const usersRelations = relations(users, ({ many }) => ({
   campaigns: many(campaigns),
   orders: many(orders),
   passwordResetTokens: many(passwordResetTokens),
+  credits: many(credits),
 }));
 
 export const sessionsRelations = relations(sessions, ({ one }) => ({
@@ -161,4 +164,8 @@ export const campaignsRelations = relations(campaigns, ({ one, many }) => ({
 export const ordersRelations = relations(orders, ({ one }) => ({
   user: one(users, { fields: [orders.userId], references: [users.id] }),
   campaign: one(campaigns, { fields: [orders.campaignId], references: [campaigns.id] }),
+}));
+
+export const creditsRelations = relations(credits, ({ one }) => ({
+  user: one(users, { fields: [credits.userId], references: [users.id] }),
 }));
